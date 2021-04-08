@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>書圖同歸</title>
+
+    <script type="text/javascript" charset="utf-8">
+        window.onload="start()";
+        var test_index = 0;
+
+        function getScore(){
+            var i1 = 0;
+            var i2 = 0;
+            var i3 = 0;
+            var i4 = 0;
+
+            var choice_num = document.querySelectorAll('#test').length;
+            console.log(choice_num)
+
+            for (var i = 0; i < choice_num; i++) {
+                obj = document.querySelectorAll('#test')[i];
+                console.log(obj.checked)
+                if (obj.checked == true){
+                    console.log(obj.value);
+                    res = [obj.value];
+                    if (obj.value.length > 1){
+                        var res = res[0].split(", ");
+                    }
+                    console.log(res);
+                    if (res.includes("1")){
+                        i1+=1;
+                    } 
+                    if (res.includes("2")){
+                        i2+=1;
+                    }
+                    if (res.includes("3")){
+                        i3+=1;
+                    }
+                    if (res.includes("4")){
+                        i4+=1;
+                    }
+                }
+            }
+            console.log(i1);
+            console.log(i2);
+            console.log(i3);
+            console.log(i4);
+
+        }
+
+        function next() {
+            document.getElementsByClassName("quiestion")[test_index].hidden = true;
+            test_index += 1;
+            console.log(test_index)
+            document.getElementsByClassName("quiestion")[test_index].hidden = false;
+            if (test_index == {{ test_num }}-1){
+                console.log(test_index);
+
+            }
+        }
+        
+    </script>
+</head>
+<body onload="start()">
+<div class="container">
+{% for test in test_list %}
+    {% if forloop.counter == 1 %}
+    <div  id="{{ forloop.counter }}" class="quiestion" >
+    {% else %}
+    <div  id="{{ forloop.counter }}" class="quiestion"  hidden>
+    {% endif %}
+    <div>
+        目前題數 : {{ forloop.counter }} / {{ test_num }}
+    </div>
+    {{ test.id }}
+    {{ test.question }}
+    {% for choice in choice_list %}
+            {% if test.id == choice.question_id %}
+                <div >
+                {% for typeof in type_list %}
+                    {% if choice.id == typeof.choice_id %}
+                    
+
+                    <input type="radio" id="test" name="{{ test.id }}" value="{{ typeof.text }}" >
+                    <label for="{{ test.id }}">{{ choice.choice_number }}.{{ choice.text }}</label><br>
+                
+                        {{ typeof.text }}類
+                    {% endif %}
+                {% endfor %}
+                </div>
+            {% endif %}
+    {% endfor %}
+    {% if forloop.counter == test_num %}
+        <button id="end">送出</button>
+    {% else %}
+        <button id="next" onclick="next()">下一題</button>
+    {% endif %}
+    </div>
+{% endfor %}
+</div>
+</body>
+</html>
