@@ -19,6 +19,7 @@ from trips.views import *
 
 
 urlpatterns = [
+    path('', index),
     path('admin/', admin.site.urls),
     path('hello/', hello_world),
     path('home/',home),

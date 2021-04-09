@@ -1,0 +1,107 @@
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <script  src="{% static 'js/base.js' %}"></script>
+
+</head>
+<body>
+    <meta charset="utf-8">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+        <div class="container-fluid">
+        <a class="navbar-brand" href="#">大學圖書館</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav"  aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main_nav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown" id="myDropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">館藏資源</a>
+                    <ul class="dropdown-menu">
+                        <li> <a class="dropdown-item" href="#"> 讀者記錄查詢 </a></li>
+                        <li> <a class="dropdown-item" href="#"> 館藏查詢 </a></li>
+                        <li><a class="dropdown-item" href="#"> 資源整合查詢 </a></li>
+                        <li><a class="dropdown-item" href="#"> 大學博碩士論文 </a></li>
+                        <li><a class="dropdown-item" href="#">報紙目錄 &raquo; </a>
+                          <ul class="submenu dropdown-menu">
+                            <li><a class="dropdown-item" href="#">紙本</a></li>
+                            <li><a class="dropdown-item" href="#">電子</a></li>
+                          </ul>
+                        </li>
+                        <li><a class="dropdown-item" href="#"> 期刊資源 </a></li>
+                        <li><a class="dropdown-item" href="#"> 教師指定教科書 </a></li>
+                        <li><a class="dropdown-item" href="#"> 新書目錄 </a></li>
+                        <li><a class="dropdown-item" href="#"> 專題館藏 </a></li>
+                        <li><a class="dropdown-item" href="#">本校考古題 &raquo; </a>
+                          <ul class="submenu dropdown-menu">
+                            <li><a class="dropdown-item" href="#">博士班</a></li>
+                            <li><a class="dropdown-item" href="#">碩士班</a></li>
+                            <li><a class="dropdown-item" href="#">碩士在職專班</a></li>
+                            <li><a class="dropdown-item" href="#">入學考</a></li>
+                            <li><a class="dropdown-item" href="#">轉學考</a></li>
+                            <li><a class="dropdown-item" href="#">進修部入學考</a></li>
+                            <li><a class="dropdown-item" href="#">進修部轉學考</a></li>
+                            <li><a class="dropdown-item" href="#">本校考古題-二年制入學考 ．重點運動績優</a></li>
+                          </ul>
+                          <li><a class="dropdown-item" href="#"> 館藏分類表 </a></li>
+                          <li><a class="dropdown-item" href="#"> 特藏代碼表 </a></li>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown" id="myDropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">電子資源</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">資料庫 Databases &raquo; </a>
+                          <ul class="submenu dropdown-menu">
+                            <li><a class="dropdown-item" href="#">資料庫總覽</a></li>
+                            <li><a class="dropdown-item" href="#">資料庫使用指引CONCERT</a></li>
+                          </ul>
+                        </li>
+                        <li><a class="dropdown-item" href="#">電子書 &raquo; </a>
+                          <ul class="submenu dropdown-menu">
+                            <li><a class="dropdown-item" href="#">電子書資料庫操作功能</a></li>
+                          </ul>
+                        </li>
+                        <li> <a class="dropdown-item" href="#"> 電子期刊 </a></li>
+                    </ul>
+                </li>          
+            </ul>
+        </div>
+<!--
+                  <ul class="submenu dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Submenu item 1</a></li>
+                    <li><a class="dropdown-item" href="#">Submenu item 2</a></li>
+                    <li><a class="dropdown-item" href="#">Submenu item 3 &raquo; </a>
+                      <ul class="submenu dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Multi level 1</a></li>
+                        <li><a class="dropdown-item" href="#">Multi level 2</a></li>
+                      </ul>
+                    </li>
+                    <li><a class="dropdown-item" href="#">Submenu item 4</a></li>
+                    <li><a class="dropdown-item" href="#">Submenu item 5</a></li>
+                  </ul>
+                </li>
+    <nav class="navbar">
+        <a class="navbar-brand">Test Admin</a>
+        <ul class="navbar-right">
+        <a class="navbar-brand" href="/administration">首頁</a>
+        {% if request.user.is_superuser %}
+        <a class="navbar-brand" href="/">書單</a>
+        <a class="navbar-brand" href="/">集點紀錄</a>
+        <a class="navbar-brand" href="/">測驗題目</a>
+        <a class="navbar-brand" href="/">抽獎頁面</a>
+        <a class="navbar-brand" href="/">測驗活動</a>
+        <a class="navbar-brand" href="/">新增</a>
+        <a class="navbar-brand" href="{% url 'logout' %}">登出</a>
+        {% else %}
+        <a class="navbar-brand" href="{% url 'login' %}">登入</a>
+        {% endif %}
+-->
+    </ul>
+    </nav>
+</body>
+</html>

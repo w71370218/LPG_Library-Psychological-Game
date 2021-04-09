@@ -11,6 +11,8 @@ def hello_world(request):
       'current_time': str(datetime.now()),
 })
 
+def index(request):
+	return render(request, 'index.html')
 
 def home(request):
 	test_num = 3
