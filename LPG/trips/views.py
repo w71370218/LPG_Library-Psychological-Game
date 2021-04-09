@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from datetime import datetime
 from trips.models import *
 from random import randint
-#from .forms import TestForm
+from .forms import TestForm
 	
 def hello_world(request):
 # return HttpResponse("Hello World!")
@@ -22,3 +22,10 @@ def home(request):
 	return render(request, 'home.html', {
 		'test_list': test_list, 'choice_list': choice_list, 'type_list': type_list, 'book_list': book_list, 'pointrecored_list': pointrecored_list, 'test_num':test_num,
 		})
+
+def administration(request):
+	return render(request, 'administration.html')
+
+def test_new(request):
+	form = TestForm
+	return render(request, 'test_edit.html', {'form': form})
