@@ -1,6 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <title>書圖同歸</title>
 
     <script type="text/javascript" charset="utf-8">
@@ -62,40 +66,44 @@
 </head>
 <body onload="start()">
 <div class="container">
-{% for test in test_list %}
-    {% if forloop.counter == 1 %}
-    <div  id="{{ forloop.counter }}" class="quiestion" >
-    {% else %}
-    <div  id="{{ forloop.counter }}" class="quiestion"  hidden>
-    {% endif %}
-    <div>
-        目前題數 : {{ forloop.counter }} / {{ test_num }}
-    </div>
-    {{ test.id }}
-    {{ test.question }}
-    {% for choice in choice_list %}
-            {% if test.id == choice.question_id %}
-                <div >
-                {% for typeof in type_list %}
-                    {% if choice.id == typeof.choice_id %}
-                    
+    <div class="start_page"></div>
+    <div class="test_page">
+    {% for test in test_list %}
+        {% if forloop.counter == 1 %}
+        <div  id="{{ forloop.counter }}" class="quiestion" >
+        {% else %}
+        <div  id="{{ forloop.counter }}" class="quiestion"  hidden>
+        {% endif %}
+        <div>
+            目前題數 : {{ forloop.counter }} / {{ test_num }}
+        </div>
+        {{ test.id }}
+        {{ test.question }}
+        {% for choice in choice_list %}
+                {% if test.id == choice.question_id %}
+                    <div >
+                    {% for typeof in type_list %}
+                        {% if choice.id == typeof.choice_id %}
+                        
 
-                    <input type="radio" id="test" name="{{ test.id }}" value="{{ typeof.text }}" >
-                    <label for="{{ test.id }}">{{ choice.choice_number }}.{{ choice.text }}</label><br>
-                
-                        {{ typeof.text }}類
-                    {% endif %}
-                {% endfor %}
-                </div>
-            {% endif %}
+                        <input type="radio" id="test" name="{{ test.id }}" value="{{ typeof.text }}" >
+                        <label for="{{ test.id }}">{{ choice.choice_number }}.{{ choice.text }}</label><br>
+                    
+                            {{ typeof.text }}類
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                {% endif %}
+        {% endfor %}
+        {% if forloop.counter == test_num %}
+            <button id="end">送出</button>
+        {% else %}
+            <button id="next" onclick="next()">下一題</button>
+        {% endif %}
+        </div>
     {% endfor %}
-    {% if forloop.counter == test_num %}
-        <button id="end">送出</button>
-    {% else %}
-        <button id="next" onclick="next()">下一題</button>
-    {% endif %}
     </div>
-{% endfor %}
+    <div class="result_page"></div>
 </div>
 </body>
 </html>

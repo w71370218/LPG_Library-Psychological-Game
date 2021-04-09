@@ -1,11 +1,27 @@
 from django import forms
-from .models import Test
+from .models import Test, Choice, Type
 
-
-
-#class 
 
 '''
+class TestForm(forms.Modelform):
+    class Meta:
+        model = Test
+        fields = ('question')
+        labels = {
+            'question': '問題',
+            'choice_number': '選項號碼',
+            'text':'選項文字',
+            'category':'請選擇類別',
+            'area':'請選擇縣市',
+            'location':'地址',
+            'phone_number':'電話',
+            'tag':'標籤',
+        }
+'''
+'''
+class Test(models.Model):
+    question = models.TextField()
+
 class Choice(models.Model):
     question = models.ForeignKey(Test, on_delete=models.RESTRICT)
     choice_number = models.IntegerField()
