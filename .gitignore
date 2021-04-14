@@ -3,4 +3,4 @@ venv
 __pycache__
 staticfiles
 db.sqlite3
-LPG/media/bookcover/*
+LPG/media/bookcover/ *
