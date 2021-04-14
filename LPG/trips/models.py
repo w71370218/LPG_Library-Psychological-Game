@@ -43,7 +43,7 @@ class Booklist(models.Model):
 	author = models.TextField(blank=True, null=True)
 	publisher = models.TextField(blank=True, null=True)
 	callnumber = models.CharField(max_length=100,blank=True, null=True)
-	ISBN = models.IntegerField(blank=True, null=True)
+	ISBN = models.CharField(max_length=13,blank=True, null=True)
 	picturename = models.ImageField(upload_to='bookcover',blank=True, null=True)
 	created_date = models.DateTimeField(blank=True, null=True)
 	typeof = models.IntegerField(blank=True, null=True)
@@ -58,7 +58,7 @@ class Booklist(models.Model):
 class PointRecord(models.Model):
 	date = models.DateTimeField(blank=True, null=True)
 	studentID = models.IntegerField(blank=True, null=True)
-	ISBN = models.IntegerField(blank=True, null=True)
+	ISBN = models.CharField(max_length=13,blank=True, null=True)
 
 	def earn(self):
 		self.date = timezone.now()

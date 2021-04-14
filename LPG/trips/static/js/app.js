@@ -61,7 +61,7 @@ function submit() {
             'result': result
             },
         success: function(json) {
-            alert("Successfully sent the URL to Django");
+            console.log("Successfully sent the URL to Django");
             console.log(json);
             json = JSON.parse(json)
             console.log(typeof json);
@@ -94,7 +94,7 @@ function submit() {
 
         },
         error: function(xhr,errmsg,err){
-            alert("Could not send URL to Django. Error: " + xhr.status + ": " + xhr.responseText);
+            console.log("Could not send URL to Django. Error: " + xhr.status + ": " + xhr.responseText);
             console.log('error', error);
         }
     })
