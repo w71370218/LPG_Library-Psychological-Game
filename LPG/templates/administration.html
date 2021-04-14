@@ -1,16 +1,48 @@
 {% extends 'base.html' %}
 <head>
-    {% block na %}
+    {% block title %}
         <title>Test Admin</title>
     {% endblock %}
 </head>
 <body>
     {% block content %}
+    {% if request.user.is_superuser %}
     <div class="container">
-        
+        Hi! {{ request.user }}
+        <div class="card-group" >
+          <div class="card border-info mb-3" style="max-width: 18rem;">
+            <div class="card-body text-info">
+              <h1 class="card-title ">{{ question_num }}</h1>
+              <a class="card-text text-info" href="#">管理書單</a>
+              <p class="card-text"></p>
+            </div>
+            <a href="#">
+              <div class="card-footer bg-info text-white">書單</div>
+            </a>
+          </div>
+          <div class="card border-info mb-3" style="max-width: 18rem;">
+            <div class="card-body text-white" style="background-color: #86E4F7">
+              <h1 class="card-title">{{ book_num }}</h1>
+              <a class="card-text text-white" href="#">管理紀錄</a><br>
+              <a class="card-text text-white" href="#">新增紀錄</a>
+              <p class="card-text"></p>
+            </div>
+            <a href="#">
+              <div class="card-footer bg-white text-info">集點紀錄</div>
+            </a>
+          </div>
+          <div class="card border-info mb-3" style="max-width: 18rem;">
+            <div class="card-body text-info">
+              <h1 class="card-title ">{{ pointrecord_num }}</h1>
+              <a class="card-text text-info" href="#">管理題目</a>
+            </div>
+            <a href="#" >
+              <div class="card-footer bg-info text-white" >測驗題目</div>
+            </a>
+          </div>
+        </div>
     </div>
-    <div id = "test">
-        
-    </div>
+    {% else %}
+    {% endif %}
      {% endblock %}
 </body>

@@ -21,3 +21,59 @@
   }
 }	
 /* ============ small devices .end// ============ */
+
+
+/* full gray screen */
+#block{
+	visibility: hidden;
+	position: absolute;
+	height:100%;
+	width:100%;
+	z-index:998;
+    background-color:rgba(200,200,200,0.7);
+}
+
+.close-block{
+	height:100%;
+	width:100%;
+}
+
+/* ---------------- */
+
+.card-group{
+	display: flex;
+}
+
+a {
+	text-decoration:none;
+}
+
+.center-div
+{
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 700px;
+  height: 500px;
+  background-color: #fff;
+  border-radius: 3px;
+}
+
+.cneter-container {
+	display: flex;
+	justify-content: center;
+    align-items: center;
+	justify-content:space-evenly; 
+
+}
+
+.center-button {
+	margin: 10px;
+	text-align: center;
+	width: 180px;
+  	height: 180px;
+ 	border-radius: 3px;
+}

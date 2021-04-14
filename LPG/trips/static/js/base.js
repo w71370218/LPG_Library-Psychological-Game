@@ -32,3 +32,15 @@ if (window.innerWidth < 992) {
 // end if innerWidth
 }); 
 // DOMContentLoaded  end
+
+/* full gray screen */
+function show(){
+}
+
+function hide(){
+
+}
+
+/* ---------------- */
+function showFileForm(){
+}

@@ -2,29 +2,42 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
     <title>書圖同歸</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
         function next() {
-            document.getElementsByClassName("quiestion")[test_index].hidden = true;
-            test_index += 1;
-            console.log(test_index)
-            document.getElementsByClassName("quiestion")[test_index].hidden = false;
-            if (test_index == {{ test_num }}-1){
-                console.log(test_index);
-
-         }
-}
+            if (document.getElementsByClassName("quiestion")[test_index].hidden == false) {
+                var name = document.getElementsByClassName("quiestion")[test_index].children[2].children[0].name;
+            }
+            var v = $("input[name="+name+"]").is(":checked");
+            if (v) {
+                document.getElementsByClassName("quiestion")[test_index].hidden = true;
+                test_index += 1;
+                document.getElementsByClassName("quiestion")[test_index].hidden = false;
+                if (test_index == {{ test_num }}-1){
+                    console.log("最後一題");
+                }
+            }
+            
+    }
     </script>
 
-    <script  src="{% static 'js/home.js' %}"></script>
+    <script  src="{% static 'js/app.js' %}"></script>
 </head>
 <body>
 <div class="container">
-    <div class="start_page"></div>
-    <div class="test_page">
+    <div id="start_page">
+        <h1>書圖同歸</h1>
+        <h3>在茫茫書海中找到屬於你的書</h3>
+        <button onclick="start()">開始</button>
+    </div>
+        
+    <div id="test_page">
     {% for test in test_list %}
         {% if forloop.counter == 1 %}
         <div  id="{{ forloop.counter }}" class="quiestion" >
@@ -53,14 +66,22 @@
                 {% endif %}
         {% endfor %}
         {% if forloop.counter == test_num %}
-            <button id="end">送出</button>
+                <!--<form id="" method="POST" class="process_result_from_client">-->
+                {% csrf_token %}
+                <input type="hidden" name="score" value="0">
+                <button id="end" onclick="submit()" type="submit" class="btn btn-default btn-sm btn-outline-secondary">
+                    送出
+                </button>
+                <!--</form>-->
         {% else %}
             <button id="next" onclick="next()">下一題</button>
         {% endif %}
         </div>
     {% endfor %}
     </div>
-    <div class="result_page"></div>
+    <div id="result_page">
+        <p>我們覺得你適合看這些書...</p>
+    </div>
 </div>
 </body>
 </html>

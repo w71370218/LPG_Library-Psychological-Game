@@ -1,0 +1,11 @@
+#start_page{
+	visibility: visible;
+}
+
+#test_page{
+	visibility: hidden;
+}
+
+#result_page{
+	visibility: hidden;
+}
