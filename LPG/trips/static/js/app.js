@@ -80,7 +80,7 @@ function submit() {
                     var value = Object.values(fields)[j].toString();
                     if (Object.keys(fields)[j] === 'picturename'){
                         var key = document.createElement("img")
-                        key.src = "../media/" + value;
+                        key.src = "https://fjulpg.s3.amazonaws.com/" + value+ "?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA3FVDWHGAVE45LEQC%2F20210415%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20210415T190444Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=429887d1d421c67a94f777e51f8e7eccf1ca378087dc8f60b8829debf65489c9";
                         key.class = "picture";
                     } else {
                         var key = document.createElement("span")

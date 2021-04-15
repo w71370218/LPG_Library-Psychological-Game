@@ -81,6 +81,10 @@
     </div>
     <div id="result_page">
         <p>我們覺得你適合看這些書...</p>
+        {% for book in book_list %}
+            <img src="{{ book.picturename.url }}">
+            
+        {% endfor %}
     </div>
 </div>
 </body>
