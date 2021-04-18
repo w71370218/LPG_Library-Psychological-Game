@@ -33,8 +33,8 @@ def app(request):
 def administration(request):
 	question_num = Test.objects.all().count()
 	book_num = Booklist.objects.all().count()
-	pointercord_num = PointRecord.objects.all().count()
-	return render(request, 'administration.html', {'question_num': question_num, 'book_num':book_num, 'pointercord_num':pointercord_num})
+	pointrecord_num = PointRecord.objects.all().count()
+	return render(request, 'administration.html', {'question_num': question_num, 'book_num':book_num, 'pointrecord_num':pointrecord_num})
 
 def booklist(request):
 	book_list = Booklist.objects.all()
@@ -97,6 +97,17 @@ def test_edit(request, pk):
 	else:
 		form = TestForm(instance=test)
 	return render(request, 'test_edit.html', {'form': form})
+
+def test_new(request):
+	if request.method == "POST":
+		form = TestForm(request.POST)
+		if form.is_valid():
+			test = form.save(commit=False)
+			test.save()
+			return redirect('administration', pk=test.pk)
+	else:
+		form = TestForm()
+	return render(request, 'test_edit.html', {'form':form})
 
 def process_result_from_client(request):
 	book_num = 3
