@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from datetime import datetime
 from trips.models import *
@@ -98,16 +98,36 @@ def test_edit(request, pk):
 		form = TestForm(instance=test)
 	return render(request, 'test_edit.html', {'form': form})
 
-def test_new(request):
+def pointrecord_new(request):
+	pointrecord_list = PointRecord.objects.all()
 	if request.method == "POST":
-		form = TestForm(request.POST)
+		form = PointRecordForm(request.POST)
 		if form.is_valid():
-			test = form.save(commit=False)
-			test.save()
-			return redirect('administration', pk=test.pk)
+			pointrecord = form.save(commit=False)
+			if not pointrecord_list.filter(studentID=pointrecord.studentID , ISBN=pointrecord.ISBN):
+				pointrecord.date = timezone.now()
+				pointrecord.save()
+				return redirect('/administration/', pk=pointrecord.pk)
+			else:
+				messages.error(request, '重複的紀錄無法輸入')
 	else:
-		form = TestForm()
-	return render(request, 'test_edit.html', {'form':form})
+		form = PointRecordForm()
+	return render(request, 'pointrecord_edit.html', {'form':form})
+
+def pointrecord_edit(request, pk):
+	pointrecord_list = PointRecord.objects.all()
+	pointrecord = get_object_or_404(PointRecord, pk=pk)
+	if request.method == "POST":
+		form = PointRecordForm(request.POST, instance=pointrecord)
+		if form.is_valid():
+			pointrecord = form.save(commit=False)
+			if not pointrecord_list.filter(studentID=pointrecord.studentID , ISBN=pointrecord.ISBN):
+				pointrecord.date = timezone.now()
+				pointrecord.save()
+				messages.success(request, '成功紀錄!')
+	else:
+		form = PointRecordForm(instance=pointrecord)
+	return render(request, 'pointrecord_edit.html', {'form': form})
 
 def process_result_from_client(request):
 	book_num = 3

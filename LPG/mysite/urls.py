@@ -33,4 +33,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     re_path(r'^test/new/$', test_new, name='test_new'),
     re_path(r'^test/(?P<pk>[0-9]+)/edit/$', test_edit, name='test_edit'),
+    re_path(r'^pointrecord/new/$', pointrecord_new, name='pointrecord_new'),
+    re_path(r'^pointrecord/(?P<pk>[0-9]+)/edit/$', pointrecord_edit, name='pointrecord_edit'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

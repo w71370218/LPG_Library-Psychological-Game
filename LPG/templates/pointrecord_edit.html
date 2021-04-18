@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}
+	<title>新增集點紀錄 | Admin</title>
+{% endblock %}
+	{% block content %}
+	<h1>新增集點紀錄</h1>
+	{% if messages %}
+	{% for message in messages%}
+	<div class="alert {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}alert-danger{% endif %} {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}alert-success{% endif %}" role="alert">
+	  {{ message }}
+	</div>
+
+	
+	{% endfor %}
+	{% endif %}
+	<form method="POST" class="pointrecord-form form-group" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit" class="save btn btn-info">Save</button>
+	</form>
+	
+	{% endblock %}
