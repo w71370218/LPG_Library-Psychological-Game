@@ -26,7 +26,6 @@
             
     }
     </script>
-
     <script  src="{% static 'js/app.js' %}"></script>
 </head>
 <body>
@@ -80,11 +79,10 @@
     {% endfor %}
     </div>
     <div id="result_page">
-        <p>我們覺得你適合看這些書...</p>
-        {% for book in book_list %}
-            <img src="{{ book.picturename.url }}">
-            
-        {% endfor %}
+        <div id="loadingDiv"><p>結果載入中...</p></div>
+        <div id="resultDiv">
+            <p>我們覺得你適合看這些書...</p>
+        </div>
     </div>
 </div>
 </body>

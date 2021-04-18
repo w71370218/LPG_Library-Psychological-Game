@@ -9,3 +9,11 @@
 #result_page{
 	visibility: hidden;
 }
+
+#resultDiv{
+	visibility: hidden;
+}
+
+.picture {
+	height: 100px;
+}

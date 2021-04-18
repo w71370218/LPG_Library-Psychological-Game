@@ -103,5 +103,10 @@ def process_result_from_client(request):
 	if len(result_book_list) >= book_num:
 		result_book_list = result_book_list[:book_num]
 
+	c = 0
+	for book in result_book_list:
+		result_book_list[c].picturename = result_book_list[c].picturename.url
+		c += 1
+	
 	serialized_book_list = serialize('json', result_book_list)
 	return JsonResponse(serialized_book_list, safe=False, json_dumps_params={'ensure_ascii': False}, content_type="application/json")

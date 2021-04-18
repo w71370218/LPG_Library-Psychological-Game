@@ -53,6 +53,9 @@ function submit() {
 
     const url = window.location.href.replace("app/","process_result_from_client/")
     $.ajax({
+        complete: function () {
+            HiddenDiv();
+        },
         type: 'POST',
         url: url,
         dataType: "json",
@@ -76,12 +79,13 @@ function submit() {
                     console.log(Object.keys(fields)[j]);
                     console.log(Object.values(fields)[j]);
                     var keyDiv = document.createElement("div");
-                    keyDiv.class = Object.keys(fields)[j].toString();
+                    keyDiv.className = Object.keys(fields)[j].toString();
                     var value = Object.values(fields)[j].toString();
                     if (Object.keys(fields)[j] === 'picturename'){
+                        
                         var key = document.createElement("img")
-                        key.src = "https://fjulpg.s3.amazonaws.com/" + value+ "?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA3FVDWHGAVE45LEQC%2F20210415%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20210415T190444Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=429887d1d421c67a94f777e51f8e7eccf1ca378087dc8f60b8829debf65489c9";
-                        key.class = "picture";
+                        key.src = value;
+                        key.className = "picture";
                     } else {
                         var key = document.createElement("span")
                         key.innerHTML = value;
@@ -138,3 +142,11 @@ function getScore(){
         return [i1,i2,i3,i4];
     }
 };
+
+function HiddenDiv() {
+    if (document.readyState == "complete") {
+        var loadingMask = document.getElementById('loadingDiv');
+        loadingMask.parentNode.removeChild(loadingMask);
+        document.getElementById("resultDiv").style.visibility = "visible";
+    }
+}
