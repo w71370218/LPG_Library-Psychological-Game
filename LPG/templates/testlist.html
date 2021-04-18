@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+<head>
+    {% block title %}
+        <title>測驗題目 | Test Admin</title>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+	    {% if request.user.is_superuser %}
+	    	<div>
+	    		<h1>測驗題目</h1>
+	    	</div>
+	    	<div class="table-responsive">
+		    <table class="table table-striped">
+		    	<thead>
+				  	<tr class="">
+				      <th scope="col">#</th>
+				      <th scope="col">題目</th>
+				      <th scope="col">對應類型</th>
+				    </tr>
+				  </thead>
+		    	{% for test in test_list %}	
+		    	
+				  <thead>
+				  	<tr class="">
+				      <th scope="col">{{ test.id }}</th>
+				      <th scope="col">{{ test.question }}</th>
+				      <th scope="col"> </th>
+				    </tr>
+				  </thead>
+				  <tbody>
+		    		  
+		    		  	{% for choice in choice_list %}
+		    		  		{% if test.id == choice.question_id %}
+		    		  		<tr>
+		    		  			<th scope="row">{{ choice.choice_number }}</th>
+						      	<td>{{ choice.text }}</td>
+						      	{% for typeof in type_list %}
+                        			{% if choice.id == typeof.choice_id %}
+                        				<td>{{ typeof.text }}</td>
+                        			{% endif %}
+                   				{% endfor %}
+                   			</tr>
+						    {% endif %}
+				      	{% endfor %}
+				    
+		    	</tbody>
+		    	
+		    	{% endfor %}
+			</table>
+			</div>
+	    {% endif %}
+    {% endblock %}
+</body>
+
+class Test(models.Model):
+	question = models.TextField(blank=True, null=True)
+
+	def __str__(self):
+		return str(self.id)+" : "+self.question
+
+class Choice(models.Model):
+	question = models.ForeignKey(Test, on_delete=models.RESTRICT,blank=True, null=True, verbose_name='問題')
+	choice_number = models.IntegerField(blank=True, null=True, verbose_name='選項編號')
+	text = models.TextField(blank=True, null=True, verbose_name='選項文字')
+
+	def __str__(self):
+		return str(self.question) +" : "+ self.text
+	
+class Type(models.Model):
+	choice = models.ForeignKey(Choice, on_delete=models.RESTRICT,blank=True, null=True, verbose_name='屬於的選項')
+	text = models.CharField(max_length=100,blank=True, null=True, verbose_name='類型')
+
+	def __str__(self):
+		return self.text +" : "+ str(self.choice)

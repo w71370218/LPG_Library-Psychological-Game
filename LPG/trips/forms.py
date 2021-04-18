@@ -1,6 +1,10 @@
 from django import forms
 from .models import Test, Choice, Type, PointRecord, Booklist
 from django.db import models
+from .validators import validate_file_extension
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField(widget=forms.FileInput(attrs={'accept':'.csv'}),validators=[validate_file_extension])
 
 class TestForm(forms.ModelForm):
     class Meta:

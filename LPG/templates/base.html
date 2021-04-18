@@ -49,15 +49,15 @@
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">新增</a>
                         <ul class="dropdown-menu">
                             <li> <a class="dropdown-item" onclick="show()"> 書單 </a></li>
-                            <li> <a class="dropdown-item" href="{% url 'test_new' %}"> 測驗題目 </a></li>
+                            <li> <a class="dropdown-item" href="{% url 'upload_test_file' %}"> 測驗題目 </a></li>
                             <li><a class="dropdown-item" href="#"> 集點紀錄 </a></li>
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="#">書單</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">集點紀錄</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">測驗題目</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'booklist' %}">書單</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'pointrecord_list' %}">集點紀錄</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'testlist' %}">測驗題目</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">抽獎頁面</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}" target="_new">測驗活動</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'app' %}" target="_new">測驗活動</a></li>
                 {% endif %}
             </ul>
             <div class="nav-wrapper"></div>

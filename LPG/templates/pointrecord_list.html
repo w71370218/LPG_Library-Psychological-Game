@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+<head>
+    {% block title %}
+        <title>集點紀錄 | Test Admin</title>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+	    {% if request.user.is_superuser %}
+	    <div>
+	    		<h1>集點紀錄</h1>
+	    	</div>
+		    <table class="table">
+				  <thead>
+				  	<tr>
+				      <th scope="col">#</th>
+				      <th scope="col">學號</th>
+				      <th scope="col">ISBN</th>
+				      <th scope="col">日期</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+		    		{% for pointrecord in pointrecord_list %}	  
+				    <tr>
+				      <th scope="row">{{ pointrecord.id }}</th>
+				      <td>{{ pointrecord.studentID }}</td>
+				      <td>{{ pointrecord.ISBN }}</td>
+				      <td>{{ book.date }}</td>
+				    </tr>
+		    		{% endfor %}
+		    	</tbody>
+			</table>
+	    {% endif %}
+    {% endblock %}
+</body>

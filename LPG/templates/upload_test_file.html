@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+<head>
+    {% block title %}
+        <title>批量上傳題目 | Test Admin</title>
+    {% endblock %}
+    <script type="text/javascript">
+      {% if messages %}
+      {% for message in messages %}
+          alert("{{ message }}");
+      {% endfor %}
+    {% endif %}
+    </script>
+</head>
+<body>
+    {% block content %}
+    {% if request.user.is_superuser %}
+    <h1>批量上傳題目</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.file }}
+        <input type="submit" value="上傳">
+    </form>
+    <p>提醒:上傳檔案格式:.csv</p>
+    <h4>參考檔案下載</h4>
+    <a href="{% static 'csv/題目範例.csv' %}" download>
+      <p>上傳題目格式範例.csv</p>
+    </a>
+    {% else %}
+    {% endif %}
+    {% endblock %}
+</body>

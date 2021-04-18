@@ -10,43 +10,32 @@ class Test(models.Model):
 
 	def __str__(self):
 		return str(self.id)+" : "+self.question
-    #author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    #title = models.CharField(max_length=200)
-    #text = models.TextField()
-    #created_date = models.DateTimeField(default=timezone.now)
-    #published_date = models.DateTimeField(blank=True, null=True)
-
-    #def publish(self):
-     #   self.published_date = timezone.now()
-      #  self.save()
-
-    #def __str__(self):
-    #    return self.title
 
 class Choice(models.Model):
-	question = models.ForeignKey(Test, on_delete=models.RESTRICT,blank=True, null=True)
-	choice_number = models.IntegerField(blank=True, null=True)
-	text = models.TextField(blank=True, null=True)
+	question = models.ForeignKey(Test, on_delete=models.RESTRICT,blank=True, null=True, verbose_name='問題')
+	choice_number = models.IntegerField(blank=True, null=True, verbose_name='選項編號')
+	text = models.TextField(blank=True, null=True, verbose_name='選項文字')
 
 	def __str__(self):
 		return str(self.question) +" : "+ self.text
 	
 class Type(models.Model):
-	choice = models.ForeignKey(Choice, on_delete=models.RESTRICT,blank=True, null=True)
-	text = models.CharField(max_length=100,blank=True, null=True)
+	choice = models.ForeignKey(Choice, on_delete=models.RESTRICT,blank=True, null=True, verbose_name='屬於的選項')
+	text = models.CharField(max_length=100,blank=True, null=True, verbose_name='類型')
 
 	def __str__(self):
 		return self.text +" : "+ str(self.choice)
 
 class Booklist(models.Model):
-	title = models.TextField(blank=True, null=True)
-	author = models.TextField(blank=True, null=True)
-	publisher = models.TextField(blank=True, null=True)
-	callnumber = models.CharField(max_length=100,blank=True, null=True)
-	ISBN = models.CharField(max_length=13,blank=True, null=True)
-	picturename = models.ImageField(upload_to='bookcover',blank=True, null=True)
-	created_date = models.DateTimeField(blank=True, null=True)
-	typeof = models.IntegerField(blank=True, null=True)
+	title = models.TextField(blank=True, null=True, verbose_name='題名')
+	author = models.TextField(blank=True, null=True, verbose_name='作者')
+	publisher = models.TextField(blank=True, null=True, verbose_name='出版者')
+	callnumber = models.CharField(max_length=100,blank=True, null=True, verbose_name='索書號')
+	location = models.CharField(max_length=100,blank=True, null=True, verbose_name='館藏地')
+	ISBN = models.CharField(max_length=13,blank=True, null=True, verbose_name='ISBN')
+	picturename = models.ImageField(upload_to='bookcover',blank=True, null=True, verbose_name='圖片')
+	created_date = models.DateTimeField(blank=True, null=True, verbose_name='創建時間')
+	typeof = models.IntegerField(blank=True, null=True, verbose_name='類型')
 
 	def create(self):
 		self.created_date = timezone.now()
@@ -56,9 +45,9 @@ class Booklist(models.Model):
 		return str(self.ISBN)
 
 class PointRecord(models.Model):
-	date = models.DateTimeField(blank=True, null=True)
-	studentID = models.IntegerField(blank=True, null=True)
-	ISBN = models.CharField(max_length=13,blank=True, null=True)
+	date = models.DateTimeField(blank=True, null=True, verbose_name='日期')
+	studentID = models.IntegerField(blank=True, null=True, verbose_name='學號')
+	ISBN = models.CharField(max_length=13,blank=True, null=True, verbose_name='ISBN')
 
 	def earn(self):
 		self.date = timezone.now()

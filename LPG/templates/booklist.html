@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+<head>
+    {% block title %}
+        <title>書單 Booklist | Test Admin</title>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+	    {% if request.user.is_superuser %}
+	    <div>
+	    		<h1>書單</h1>
+	    	</div>
+		    <table class="table">
+				  <thead>
+				  	<tr>
+				      <th scope="col">#</th>
+				      <th scope="col">題名</th>
+				      <th scope="col">作者</th>
+				      <th scope="col">出版者</th>
+				      <th scope="col">索書號</th>
+				      <th scope="col">館藏地</th>
+				      <th scope="col">ISBN</th>
+				      <th scope="col">圖片位置</th>
+				      <th scope="col">創建時間</th>
+				      <th scope="col">類型</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+		    		{% for book in book_list %}	  
+				    <tr>
+				      <th scope="row">{{ book.id }}</th>
+				      <td>{{ book.title }}</td>
+				      <td>{{ book.author }}</td>
+				      <td>{{ book.publisher }}</td>
+				      <td>{{ book.callnumber }}</td>
+				      <td>{{ book.location }}</td>
+				      <td>{{ book.ISBN }}</td>
+				      <td>{{ book.picturename }}</td>
+				      <td>{{ book.created_date }}</td>
+				      <td>{{ book.typeof }}</td>
+				    </tr>
+		    		{% endfor %}
+		    	</tbody>
+			</table>
+	    {% endif %}
+    {% endblock %}
+</body>

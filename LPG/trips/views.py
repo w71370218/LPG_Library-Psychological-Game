@@ -3,11 +3,12 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from datetime import datetime
 from trips.models import *
 from random import randint
-from .forms import TestForm, ChoiceForm, TypeForm, PointRecordForm, BooklistForm
-from django.contrib import auth
+from .forms import TestForm, ChoiceForm, TypeForm, PointRecordForm, BooklistForm, UploadFileForm
+from django.contrib import auth, messages
 from django.core.serializers import serialize
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
 
 def hello_world(request):
 # return HttpResponse("Hello World!")
@@ -24,18 +25,39 @@ def app(request):
 	choice_list = Choice.objects.all()
 	type_list = Type.objects.all()
 	book_list = Booklist.objects.all()
-	pointrecored_list = PointRecord.objects.all()
 
-	
 	return render(request, 'app.html', {
-		'test_list': test_list, 'choice_list': choice_list, 'type_list': type_list, 'book_list': book_list, 'pointrecored_list': pointrecored_list, 'test_num':test_num,
+		'test_list': test_list, 'choice_list': choice_list, 'type_list': type_list, 'book_list': book_list, 'test_num':test_num,
 		})
 
 def administration(request):
 	question_num = Test.objects.all().count()
 	book_num = Booklist.objects.all().count()
-	pointrecord_num = PointRecord.objects.all().count()
-	return render(request, 'administration.html', {'question_num': question_num, 'book_num':book_num, 'pointrecord_num':pointrecord_num})
+	pointercord_num = PointRecord.objects.all().count()
+	return render(request, 'administration.html', {'question_num': question_num, 'book_num':book_num, 'pointercord_num':pointercord_num})
+
+def booklist(request):
+	book_list = Booklist.objects.all()
+	
+	return render(request, 'booklist.html', {
+		'book_list': book_list
+		})
+
+def pointrecord_list(request):
+	pointrecord_list = PointRecord.objects.all()
+	
+	return render(request, 'pointrecord_list.html', {
+		'pointrecord_list': pointrecord_list
+		})
+
+def testlist(request):
+	test_list = Test.objects.all()
+	choice_list = Choice.objects.all()
+	type_list = Type.objects.all()
+
+	return render(request, 'testlist.html', {
+		'test_list': test_list, 'choice_list': choice_list, 'type_list': type_list
+		})
 
 def login(request):
     if request.user.is_authenticated:
@@ -107,6 +129,29 @@ def process_result_from_client(request):
 	for book in result_book_list:
 		result_book_list[c].picturename = result_book_list[c].picturename.url
 		c += 1
-	
+
 	serialized_book_list = serialize('json', result_book_list)
 	return JsonResponse(serialized_book_list, safe=False, json_dumps_params={'ensure_ascii': False}, content_type="application/json")
+
+
+def upload_test_file(request):
+	test_list = Test.objects.all()
+	choice_list = Choice.objects.all()
+	type_list = Type.objects.all()
+	if request.method == 'POST':
+		form = UploadFileForm(request.POST, request.FILES)
+		if form.is_valid():
+			print(request.FILES['file'])
+			df = pd.read_csv(request.FILES['file'])
+			data = df.values.tolist()
+			for i in data:
+				if not test_list.filter(question=i[0]):
+					Test.objects.create(question=i[0])
+				i_test = test_list.filter(question=i[0])
+				i_choice = Choice.objects.create(question=i_test[0], choice_number=i[1], text=i[2])
+				Type.objects.create(choice=i_choice,text=i[3])
+			messages.info(request, '上傳成功!')
+			return HttpResponseRedirect('/administration/')
+	else:
+		form = UploadFileForm()
+	return render(request, 'upload_test_file.html', {'form': form})

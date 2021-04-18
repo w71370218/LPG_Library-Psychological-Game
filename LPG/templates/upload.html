@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+<head>
+    {% block title %}
+        <title>Test Admin</title>
+    {% endblock %}
+    <script type="text/javascript">
+      {% if messages %}
+      {% for message in messages %}
+          alert("{{ message }}");
+      {% endfor %}
+    {% endif %}
+    </script>
+</head>
+<body>
+    {% block content %}
+    {% if request.user.is_superuser %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.file }}
+        <input type="submit" value="Submit">
+    </form>
+    {% else %}
+    {% endif %}
+    {% endblock %}
+</body>

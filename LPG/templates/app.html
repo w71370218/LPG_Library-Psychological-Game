@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
     <title>書圖同歸</title>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
         function next() {
@@ -32,8 +33,12 @@
 <div class="container">
     <div id="start_page">
         <h1>書圖同歸</h1>
-        <h3>在茫茫書海中找到屬於你的書</h3>
+        <h3>在茫茫書海中，找到屬於你的書。</h3>
         <button onclick="start()">開始</button>
+
+            <img  src="{% static 'svg/AnyConv.com__3.svg'  %}" style="height: 200px" class="box"/>
+
+        
     </div>
         
     <div id="test_page">
