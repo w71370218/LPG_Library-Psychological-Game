@@ -75,6 +75,13 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/administration/')
 
+def lucky_draw(request):
+	pointrecord_list = PointRecord.objects.all()
+	pointrecord_num = pointrecord_list.count()
+	return render(request, 'lucky_draw.html', {
+		'pointrecord_list':pointrecord_list, 'pointrecord_num': pointrecord_num,
+		})
+
 def test_new(request):
 	if request.method == "POST":
 		form = TestForm(request.POST)
@@ -100,6 +107,7 @@ def test_edit(request, pk):
 
 def pointrecord_new(request):
 	pointrecord_list = PointRecord.objects.all()
+	recent_pointrecord_list = pointrecord_list.order_by('-date')[:3]
 	if request.method == "POST":
 		form = PointRecordForm(request.POST)
 		if form.is_valid():
@@ -107,12 +115,13 @@ def pointrecord_new(request):
 			if not pointrecord_list.filter(studentID=pointrecord.studentID , ISBN=pointrecord.ISBN):
 				pointrecord.date = timezone.now()
 				pointrecord.save()
-				return redirect('/administration/', pk=pointrecord.pk)
+				messages.success(request, '成功紀錄!')
+				return redirect('/pointrecord/new/', pk=pointrecord.pk)
 			else:
 				messages.error(request, '重複的紀錄無法輸入')
 	else:
 		form = PointRecordForm()
-	return render(request, 'pointrecord_edit.html', {'form':form})
+	return render(request, 'pointrecord_edit.html', {'form':form, 'recent_pointrecord_list': recent_pointrecord_list})
 
 def pointrecord_edit(request, pk):
 	pointrecord_list = PointRecord.objects.all()
@@ -127,7 +136,7 @@ def pointrecord_edit(request, pk):
 				messages.success(request, '成功紀錄!')
 	else:
 		form = PointRecordForm(instance=pointrecord)
-	return render(request, 'pointrecord_edit.html', {'form': form})
+	return render(request, 'pointrecord_edit.html', {'form': form,})
 
 def process_result_from_client(request):
 	book_num = 3

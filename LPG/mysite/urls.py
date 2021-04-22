@@ -25,6 +25,7 @@ urlpatterns = [
     path('hello/', hello_world),
     path('app/',app, name='app'),
     path('administration/',administration, name='administration'),
+    path('lucky_draw/',lucky_draw, name='lucky_draw'),
     path('booklist/',booklist, name='booklist'),
     path('pointrecord_list/',pointrecord_list, name='pointrecord_list'),
     path('testlist/',testlist, name='testlist'),

@@ -18,5 +18,27 @@
 		{{ form.as_p }}
 		<button type="submit" class="save btn btn-info">Save</button>
 	</form>
-	
+	<div>
+		<h1>最近三筆集點紀錄</h1>
+	</div>
+    <table class="table">
+		  <thead>
+		  	<tr>
+		      <th scope="col">#</th>
+		      <th scope="col">學號</th>
+		      <th scope="col">ISBN</th>
+		      <th scope="col">日期</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+    		{% for pointrecord in recent_pointrecord_list %}	  
+		    <tr>
+		      <th scope="row">{{ pointrecord.id }}</th>
+		      <td>{{ pointrecord.studentID }}</td>
+		      <td>{{ pointrecord.ISBN }}</td>
+		      <td>{{ pointrecord.date }}</td>
+		    </tr>
+    		{% endfor %}
+    	</tbody>
+	</table>
 	{% endblock %}

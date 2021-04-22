@@ -68,6 +68,12 @@ function submit() {
             console.log(json);
             json = JSON.parse(json)
             console.log(typeof json);
+            fb_share_button = document.createElement("div");
+            fb_share_button.className = "fb-share-button";
+            now_url = window.location.href;
+            fb_share_button.setAttribute('size', 'large');
+            fb_share_button.setAttribute("data-layout", "button");
+            document.getElementById("result_page").appendChild(fb_share_button)
             for (var i = 0; i < json.length; i++) {
                 var newDiv = document.createElement("div");
                 newDiv.class = "book";
@@ -94,7 +100,15 @@ function submit() {
                     newDiv.appendChild(keyDiv);
                 };
                 document.getElementById("result_page").appendChild(newDiv);
+                
             };
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v3.0";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
 
         },
         error: function(xhr,errmsg,err){

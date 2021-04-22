@@ -4,12 +4,27 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="copyright" content="統神端湯上塔 Copyright © Asiagodtone brings the soup to the tower.">
+    <meta name="keywords" content="輔大圖書館,圖書館,心理測驗,書圖同歸,測驗,趣味測驗,輔大,圖書館推廣活動">
+    <meta name="description" content="在茫茫書海中，找到屬於你的書。">
+
+    <meta property="og:type" content="website" /> 
+    <meta property="og:title" content="書圖同歸：在茫茫書海中，找到屬於你的書。" />
+    <meta property="og:description" content="在茫茫書海中，找到屬於你的書。" />
+    <meta property="og:locate" content="zh_tw" />
+    <meta property="og:image" content=".jpg" />
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
     <title>書圖同歸</title>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script>
+        
+    </script>
     <script type="text/javascript">
         function next() {
             if (document.getElementsByClassName("quiestion")[test_index].hidden == false) {
@@ -34,9 +49,13 @@
     <div id="start_page">
         <h1>書圖同歸</h1>
         <h3>在茫茫書海中，找到屬於你的書。</h3>
+        <div class="description">
+            <p></p>
+        </div>
+
         <button onclick="start()">開始</button>
 
-            <img  src="{% static 'svg/AnyConv.com__3.svg'  %}" style="height: 200px" class="box"/>
+            <!--<img  src="{% static 'svg/AnyConv.com__3.svg'  %}" style="height: 200px" class="box"/>-->
 
         
     </div>
@@ -86,7 +105,10 @@
     <div id="result_page">
         <div id="loadingDiv"><p>結果載入中...</p></div>
         <div id="resultDiv">
-            <p>我們覺得你適合看這些書...</p>
+            <h3>記得將結果截圖</h3>
+            <p>借書時把結果給館員看</p>
+            <h3>我們覺得你適合看這些書...</h3>
+            
         </div>
     </div>
 </div>
