@@ -7,43 +7,9 @@
 {% endblock %}
 {% block extra_head_content %}
 <link rel="stylesheet" href="{% static 'css/lucky_draw.css' %}">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script  src="{% static 'js/lucky_draw.js' %}"></script>
+{% if request.user.is_superuser %}
 <script type="text/javascript">
-	var g_Interval = 1;
-	var g_PersonCount = parseInt("{{ pointrecord_num }}");
-	var g_Timer;
-	var running = false;
-
-	function beginRndNum(trigger) {
-	  if (running) {
-	    running = false;
-	    clearTimeout(g_Timer);
-	    $(trigger).val("Start");
-	    $('#ResultNum').css('color', '#0babce');
-	    randomNumber();
-	  } else {
-	    running = true;
-	    $('#ResultNum').css('color', 'black');
-	    $(trigger).val("Stop");
-	    beginTimer();
-	  }
-	}
-
-	function updateRndNum() {
-	  var num = Math.floor(Math.random() * g_PersonCount + 1);
-	  var name = randomNumber();
-	  $('#ResultNum').html(name);
-	}
-
-	function beginTimer() {
-	  g_Timer = setTimeout(beat, g_Interval);
-	}
-
-	function beat() {
-	  g_Timer = setTimeout(beat, g_Interval);
-	  updateRndNum();
-	}
-
 	var jsonContent = {
 	  'member': [
 	  {% for pointrecord in pointrecord_list %}
@@ -54,14 +20,8 @@
 	  {% endfor %}
 	   ]
 	};
-
-	function randomNumber() {
-	  var random = jsonContent.member[Math.floor(Math.random() * jsonContent.member.length)];
-	  //console.log(random.name);
-	  //console.log(random.id);
-	  return random.name;
-	}
 </script>
+{% endif %}
 {% endblock %}
 
 <body>

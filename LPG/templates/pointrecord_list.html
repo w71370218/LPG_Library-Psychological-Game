@@ -10,6 +10,9 @@
 	    <div>
 	    		<h1>集點紀錄</h1>
 	    	</div>
+	    	<a href="{% url 'pointrecord_new' %}">
+	    		<button class="btn border border-info bg-white text-info">新增紀錄</button>
+	    	</a>
 		    <table class="table">
 				  <thead>
 				  	<tr>
@@ -22,7 +25,7 @@
 				  <tbody>
 		    		{% for pointrecord in pointrecord_list %}	  
 				    <tr>
-				      <th scope="row">{{ pointrecord.id }}</th>
+				      <th scope="row">{{ forloop.counter }}</th>
 				      <td>{{ pointrecord.studentID }}</td>
 				      <td>{{ pointrecord.ISBN }}</td>
 				      <td>{{ pointrecord.date }}</td>

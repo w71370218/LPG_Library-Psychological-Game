@@ -6,6 +6,10 @@ from .validators import validate_file_extension
 class UploadFileForm(forms.Form):
     file = forms.FileField(widget=forms.FileInput(attrs={'accept':'.csv'}),validators=[validate_file_extension])
 
+class UploadBooklistFileForm(forms.Form):
+    file = forms.FileField(widget=forms.FileInput(attrs={'accept':'.csv'}),validators=[validate_file_extension], label='上傳CSV檔')
+    image = forms.FileField(widget=forms.FileInput(attrs={'accept':'image/*','multiple':'ture'}), label='上傳圖片檔')
+
 class TestForm(forms.ModelForm):
     class Meta:
         model = Test
@@ -50,14 +54,16 @@ class PointRecordForm(forms.ModelForm):
 class BooklistForm(forms.ModelForm):
     class Meta:
         model = Booklist
-        fields = ('title','author','publisher','callnumber','ISBN','picturename')
+        fields = ('title','author','publisher','callnumber', 'location','ISBN','picturename','typeof')
         labels = {
             'title': '題名',
             'author': '作者',
             'publisher': '出版社',
             'callnumber':'索書號',
+            'location': '館藏地',
             'ISBN': 'ISBN',
             'picturename': '封面圖',
+            'typeof':'類型'
         }
 
 '''
