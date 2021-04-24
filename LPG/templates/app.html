@@ -14,6 +14,7 @@
         function next() {
             if (document.getElementsByClassName("quiestion")[test_index].hidden == false) {
                 var name = document.getElementsByClassName("quiestion")[test_index].children[2].children[0].name;
+                console.log(name)
             }
             var v = $("input[name="+name+"]").is(":checked");
             if (v) {
