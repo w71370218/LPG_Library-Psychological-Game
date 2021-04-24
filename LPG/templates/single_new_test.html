@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+<head>
+	{% block title %}
+	<title>單筆新增題目 | Admin</title>
+	{% endblock %}
+	<script type="text/javascript">
+		const choice_num = 2;
+
+		if ($("#choice_num").val() === 2){
+
+		} else {
+			
+		}
+
+	</script>
+</head>
+
+<body>
+	{% block content %}
+	<h1>單筆新增題目</h1>
+	<!--single_new_test.html-->
+	{% if messages %}
+	{% for message in messages%}
+	<div class="alert {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}alert-danger{% endif %} {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}alert-success{% endif %}" role="alert">
+	  {{ message }}
+	</div>
+
+	
+	{% endfor %}
+	{% endif %}
+
+	<div>
+		<h3>說明</h3>
+		<p>必填欄位(*): 問題、選項、對應類型</p>
+		<p>選項要2個或4個</p>
+		<p>注意: 選項如果是2個，對應類型會有兩個類型，數字請以", "隔開</p>
+	</div>
+	<div>
+		<label for="choice_num">選項個數:</label>
+		<select name="choice_num" id="choice_num" class="form-control">
+		  <option value="2">2個</option>
+		  <option value="4">4個</option>
+		</select>
+	</div>
+	<form method="POST" class="test-form form-group" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="table-responsive">
+		    <table class="table table-striped">
+		    	<thead>
+		    		<tr class="">
+		    			<th scope="col">#</th>
+				      	<th scope="col"><label for="question">問題</label></th>
+				      	<th scope="col">對應類型</th>
+				    </tr>
+				</thead>
+				<thead>
+				  	<tr class="">
+				      <th scope="col">{{ new_test_num }}</th>
+				      <th scope="col"><textarea type="text" id="question" name="question" class="form-control" required></textarea></th>
+				      <th scope="col"> </th>
+				    </tr>
+				</thead>
+				<tbody>
+			  	<tr class="choice_text1">
+			  		<th scope="row"><label for="choice_text1">選項1</label></th>
+			  		<td><textarea type="text" id="choice_text1" name="choice_text1" class="form-control" required></textarea></td>
+			  		<td><input type="text" id="type1" name="type1" class="form-control" required></td>
+			  	</tr>
+			  	<tr class="choice_text2">
+			  		<th scope="row"><label for="choice_text2">選項2</label></th>
+			  		<td><textarea type="text" id="choice_text2" name="choice_text2" class="form-control" required></textarea></td>
+			  		<td><input type="text" id="type2" name="type2" class="form-control" required></td>
+			  	</tr>
+			  </tbody>
+			</table>
+		</div>
+		<button type="submit" class="save btn btn-info">新增</button>
+	</form>
+	{% endblock %}
+</body>

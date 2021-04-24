@@ -10,6 +10,14 @@
 	    	<div>
 	    		<h1>測驗題目</h1>
 	    	</div>
+	    	<div class="btn group">
+		    	<a href="{% url 'single_new_test' %}">
+		    		<button class="btn border border-info bg-white text-info">單筆新增題目</button>
+		    	</a>
+		    	<a href="{% url 'upload_test_file' %}">
+		    		<button class="btn border border-info bg-white text-info">批量上傳題目</button>
+		    	</a>
+	    	</div>
 	    	<div class="table-responsive">
 		    <table class="table table-striped">
 		    	<thead>

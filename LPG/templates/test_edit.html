@@ -2,7 +2,12 @@
 {% block title %}
 	<title>編輯題目 | Admin</title>
 {% endblock %}
+{% block extra_head_content %}
+	<link rel="stylesheet" href="{% static 'css/test_edit.css' %}">
+{% endblock %}
+
 	{% block content %}
+{% if request.user.is_superuser %}
 	<h1>編輯題目</h1>
 	
 	<form method="POST" class="test-form form-group" enctype="multipart/form-data">
@@ -10,4 +15,5 @@
 		{{ form.as_p }}
 		<button type="submit" class="save btn btn-info">Save</button>
 	</form>
+{% endif %}
 	{% endblock %}

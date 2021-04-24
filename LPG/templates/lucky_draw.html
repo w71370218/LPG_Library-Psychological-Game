@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+	<title>抽獎 | Admin</title>
+{% endblock %}
+{% block extra_head_content %}
+<link rel="stylesheet" href="{% static 'css/lucky_draw.css' %}">
+<script  src="{% static 'js/lucky_draw.js' %}"></script>
+{% if request.user.is_superuser %}
+<script type="text/javascript">
+	var jsonContent = {
+	  'member': [
+	  {% for pointrecord in pointrecord_list %}
+	  {
+	    'name': '{{ pointrecord.studentID }}',
+	    'ISBN': '{{ pointrecord.ISBN }}'
+	  },
+	  {% endfor %}
+	   ]
+	};
+</script>
+{% endif %}
+{% endblock %}
+
+<body>
+{% block content %}
+{% if request.user.is_superuser %}
+<div class="container">
+<h1>抽獎</h1>
+
+<div id="Result">
+	<span id="ResultNum">0</span>
+</div>
+
+<div id="Button">
+	<input type='button' id="btn" value='開始' onclick='beginRndNum(this)'/>
+</div>
+</div>
+{% endif %}
+	{% endblock %}
+</body>

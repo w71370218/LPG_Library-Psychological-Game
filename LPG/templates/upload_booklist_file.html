@@ -2,7 +2,7 @@
 {% load static %}
 <head>
     {% block title %}
-        <title>批量上傳題目 | Test Admin</title>
+        <title>批量上傳書目 | Test Admin</title>
     {% endblock %}
     
     <script type="text/javascript">
@@ -16,21 +16,22 @@
 <body>
     {% block content %}
     {% if request.user.is_superuser %}
-    <h1>批量上傳題目</h1>
+    <h1>批量上傳書目</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.file }}
+        {{ form.as_p }}
         <button type="submit" class="save btn btn-info">上傳</button>
     </form>
     <div class="alert alert-info" role="alert">
       <h4 class="alert-heading">提醒</h4>
       <p>上傳檔案格式: <b>.csv</b></p>
+      <p>有多少筆書目就同時上傳多少張圖片</p>
       <hr>
       <p class="mb-0">2021/4/23 系統組 公告</p>
     </div>
     <h4>參考檔案下載</h4>
-    <a href="{% static 'csv/題目範例.csv' %}" download>
-      <p>上傳題目格式範例.csv</p>
+    <a href="{% static 'csv/書目範例.csv' %}" download>
+      <p>上傳書目格式範例.csv</p>
     </a>
     {% else %}
     {% endif %}
