@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.conf import settings
 from datetime import datetime
@@ -271,5 +271,14 @@ def upload_booklist_file(request):
 	return render(request, 'upload_booklist_file.html', {'form': form})
 
 
-def process_share_image(img):
+def share_book(request,id):
+	if request.method == 'POST':
+		book = get_object_or_404(Booklist, id=id)
+		og = book.picturename.url
+		return render(request, 'share_book.html', {'og': og})
+	else:
+		return HttpResponseRedirect('/app/')
+
+def process_share_image(img, pk):
+
 	print(123)

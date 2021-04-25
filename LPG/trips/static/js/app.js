@@ -95,13 +95,15 @@ function submit() {
                     newDiv.appendChild(keyDiv);
                 };
                 document.getElementById("result_page").appendChild(newDiv);
+
+                share_url = window.location.href.replace("app/","process_result_from_client/");
+                console.log(window.location.href);
                 fb_share_button = document.createElement("div");
                 fb_share_button.className = "fb-share-button";
-                //fb_share_button.id = ;
                 now_url = window.location.href;
                 fb_share_button.setAttribute('size', 'large');
                 fb_share_button.setAttribute("data-layout", "button");
-                //fb_share_button.setAttribute("data-href", "");
+                fb_share_button.setAttribute("data-href", window.location.href.replace("app/","share_book/"+json[i].pk+"/og/"));
                 document.getElementById((i+1).toString()).appendChild(fb_share_button)
                 
                 
@@ -117,7 +119,7 @@ function submit() {
         },
         error: function(xhr,errmsg,err){
             console.log("Could not send URL to Django. Error: " + xhr.status + ": " + xhr.responseText);
-            console.log('error', error);
+            console.log('error', err);
         }
     })
 };
