@@ -97,11 +97,11 @@ function submit() {
                 document.getElementById("result_page").appendChild(newDiv);
                 fb_share_button = document.createElement("div");
                 fb_share_button.className = "fb-share-button";
-                fb_share_button.id = ;
+                //fb_share_button.id = ;
                 now_url = window.location.href;
                 fb_share_button.setAttribute('size', 'large');
                 fb_share_button.setAttribute("data-layout", "button");
-                fb_share_button.setAttribute("data-href", "");
+                //fb_share_button.setAttribute("data-href", "");
                 document.getElementById((i+1).toString()).appendChild(fb_share_button)
                 
                 
