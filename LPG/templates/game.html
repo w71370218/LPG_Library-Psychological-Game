@@ -1,0 +1,274 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="copyright" content="統神端湯上塔 Copyright © Asiagodtone brings the soup to the tower.">
+  <meta name="keywords" content="輔大圖書館,圖書館,心理測驗,書圖同歸,測驗,趣味測驗,輔大,圖書館推廣活動">
+  <meta name="description" content="在茫茫書海中，找到屬於你的書。">
+  <!-- Open Graph Protocol -->
+  <meta property="og:type" content="website" /> 
+  <meta property="og:title" content="書圖同歸：在茫茫書海中，找到屬於你的書。" />
+  <meta property="og:description" content="在茫茫書海中，找到屬於你的書。" />
+  <meta property="og:locate" content="zh_tw" />
+  <meta property="og:image" content="https://i.imgur.com/dCTfONT.jpg" />
+
+  <title>書圖同歸：在茫茫書海中找到屬於你的書！</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+
+  <!-- Custom fonts for this template -->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'vendor/simple-line-icons/css/simple-line-icons.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+
+  <!-- Plugin CSS -->
+  <link rel="stylesheet" href="{% static 'device-mockups/device-mockups.min.css' %}">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/new-age.min.css' %}" rel="stylesheet">
+
+</head>
+<style>
+    :root{
+      --dark-background-color: #111111;
+      --dark-text-color: #a4cdd4;}
+
+  body{
+      /* Light Theme */
+      --background-color: #a4cdd4;
+      --text-color: #333333; 
+      
+      --font-family: 'Quicksand', sans-serif;
+
+      color: var(--text-color);
+      font-family: var(--font-family);
+      background: var(--background-color);}
+
+  body.theme-dark{
+      --background-color: var(--dark-background-color);
+      --text-color: var(--dark-text-color);}
+
+  .main{
+      max-width: 1000px;
+      padding: 20px;}
+
+  .main p{
+      font-weight: 500;}
+
+  .select {
+      padding: 20px;}
+
+</style>
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">Destined Books</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#download">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#features">Rules</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="masthead">
+    <div class="container h-100">
+      <div class="row h-100">
+        <div class="col-lg-7 my-auto">
+          <div class="header-content mx-auto">
+            <h1 class="mb-5">書圖同歸：在茫茫書海中找到屬於你的書！</h1>
+            <p>想要探索自己有興趣的書籍嗎？圖書館設計了一款線上答題趣味遊戲，歡迎大家來參與，有機會獲得誠品讀書禮券、活動書籤、小筆記、卡套、冰淇淋券等禮物！<br>
+              活動時間：2021/9/13~2022/1/14<br>
+              活動對象：本校在校學生<br>
+              地點：輔大圖書館（濟時樓、公博樓、國璽樓）</p>
+            <a href="#download" class="btn btn-outline btn-xl js-scroll-trigger">Start Now for Free!</a>
+          </div>
+        </div>
+        <div class="col-lg-5 my-auto">
+          <div class="device-container">
+            <div class="device-mockup iphone6_plus portrait white">
+              <div class="device">
+                <div class="screen">
+                  <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
+                  <img src="{% static 'img/demo-screen-1.jpg' %}" class="img-fluid" alt="">
+                </div>
+                <div class="button">
+                  <!-- You can hook the "home button" to some JavaScript events or just remove it -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="download bg-primary text-center" id="download">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <h2 class="section-heading">集點規則</h2>
+          <p>每借閱一本書集一點（每日借閱最多獲取三點），借越多集越多！！！<br>
+            在答題測驗結束後有推薦書集者，無論推薦多寡，每人有一次機會可透過此方式加一點<br>
+            有分享測驗結果至FB、IG等社群軟體每人有一次機會可加一點。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-heading text-center">
+        <h2>活動說明</h2>
+        <p class="text-muted">暫時想不到放什麼</p>
+        <hr>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 my-auto">
+          <div class="device-container">
+            <div class="device-mockup iphone6_plus portrait white">
+              <div class="device">
+                <div class="screen">
+                  <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
+                  <img src="{% static 'img/demo-screen-1.jpg' %}" class="img-fluid" alt="">
+                </div>
+                <div class="button">
+                  <!-- You can hook the "home button" to some JavaScript events or just remove it -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8 my-auto">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="feature-item">
+                  <i class="icon-screen-smartphone text-primary"></i>
+                  <h3>參與線上趣味測驗</h3>
+                  <p class="text-muted">參與線上趣味測驗獲得推薦書（測驗連結：/QRCode）</p>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="feature-item">
+                  <i class="icon-camera text-primary"></i>
+                  <h3>借書</h3>
+                  <p class="text-muted">將推薦結果畫面截圖並到圖書館借推薦書</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="feature-item">
+                  <i class="icon-present text-primary"></i>
+                  <h3>集點</h3>
+                  <p class="text-muted">到流通櫃檯借閱推薦書並出示截圖畫面完成集點，每一點有一次抽獎機會<br>※自助借書機借書者要出示借書收據</p>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="feature-item">
+                  <i class="icon-lock-open text-primary"></i>
+                  <h3>抽獎</h3>
+                  <p class="text-muted">集點數量最多的前三名讀者，每位獲得誠品禮券300元、活動書籤1張、小筆記本1本和卡套1個。<br>
+                    隨機抽選30位讀者，每位贈送冰淇淋券3張和活動書籤1張。</p>
+                </div>
+              </div>
+            </div>
+            <h3>時程</h3>
+            <p>於 2022/2/23（三）在圖書館網頁或 FB 粉絲專頁公布獲獎結果<br>
+              請在 2022/3/9（三）前攜帶學生證至濟時樓 2F 參考櫃台領取獎勵</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="cta-content">
+      <div class="container">
+        <h2>Stop waiting.<br>Start playing.</h2>
+        <a href="{% url 'app' %}" class="btn btn-outline btn-xl js-scroll-trigger">Let's Get Started!</a>
+      </div>
+    </div>
+    <div class="overlay"></div>
+  </section>
+
+  <section class="contact bg-primary" id="contact">
+    <div class="container">
+      <h2>注意事項
+        <i class="fas fa-heart"></i>
+        </h2>
+        <p>成功借閱一本書算一點但借閱書籍不可重複</p>
+        <p>測驗結果若出現系列書每集各算一點</p>
+        <p>本活動規定如有未盡事宜，主辦單位保留調整活動內容及獎項異動之權利，主辦單位得以隨時補充公告</p>
+      <ul class="list-inline list-social">
+        <li class="list-inline-item social-twitter">
+          <a href="#">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="list-inline-item social-facebook">
+          <a href="#">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+        </li>
+        <li class="list-inline-item social-google-plus">
+          <a href="#">
+            <i class="fab fa-google-plus-g"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 統神端湯上塔 2020. All Rights Reserved.</p>
+      <ul class="list-inline">
+        <li class="list-inline-item">
+          <a href="#">Privacy</a>
+        </li>
+        <li class="list-inline-item">
+          <a href="#">Terms</a>
+        </li>
+        <li class="list-inline-item">
+          <a href="#">FAQ</a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="{% static 'js/new-age.min.js' %}"></script>
+
+</body>
+
+</html>

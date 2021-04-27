@@ -36,6 +36,10 @@ def test_img(request):
 def index(request):
 	return render(request, 'index.html')
 
+	
+def game(request):
+	return render(request, 'game.html')
+
 def app(request):
 	test_num = 3
 	test_list = Test.objects.all().order_by('?')[:test_num]

@@ -23,6 +23,7 @@ urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls),
     path('hello/', hello_world),
+    path('game/',game, name='game'),
     path('app/',app, name='app'),
     path('test_img/',test_img, name='test_img'),
     path('administration/',administration, name='administration'),

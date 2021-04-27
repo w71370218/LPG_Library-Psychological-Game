@@ -3,20 +3,23 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="copyright" content="統神端湯上塔 Copyright © Asiagodtone brings the soup to the tower.">
     <meta name="keywords" content="輔大圖書館,圖書館,心理測驗,書圖同歸,測驗,趣味測驗,輔大,圖書館推廣活動">
     <meta name="description" content="在茫茫書海中，找到屬於你的書。">
-
+    <!-- Open Graph Protocol -->
     <meta property="og:type" content="website" /> 
     <meta property="og:title" content="書圖同歸：在茫茫書海中，找到屬於你的書。" />
     <meta property="og:description" content="在茫茫書海中，找到屬於你的書。" />
     <meta property="og:locate" content="zh_tw" />
     <meta property="og:image" content="https://i.imgur.com/dCTfONT.jpg" />
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <!-- CSS -->
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
     <title>書圖同歸</title>
+    <!-- jQuery, Google CDN -->
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -25,6 +28,7 @@
     <script>
         
     </script>
+
     <script type="text/javascript">
         function next() {
             if (document.getElementsByClassName("quiestion")[test_index].hidden == false) {
@@ -43,7 +47,7 @@
             
     }
     </script>
-    <script  src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
 </head>
 <body>
 <div class="container">
@@ -51,14 +55,10 @@
         <h1>書圖同歸</h1>
         <h3>在茫茫書海中，找到屬於你的書。</h3>
         <div class="description">
-            <p></p>
+            <p>想要探索自己有興趣的書籍嗎？圖書館設計了一款線上答題趣味遊戲，歡迎大家來參與，越積極參與就有越多機會獲得精美小禮物喔！</p>
         </div>
-
         <button onclick="start()">開始</button>
-
-            <!--<img  src="{% static 'svg/AnyConv.com__3.svg'  %}" style="height: 200px" class="box"/>-->
-
-        
+            <!-- <img  src="{% static 'svg/AnyConv.com__3.svg'  %}" style="height: 200px" class="box"/> -->
     </div>
         
     <div id="test_page">
