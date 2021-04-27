@@ -1,3 +1,10 @@
+metas = document.getElementsByTagName('meta');
+ for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('property') === "og:url") {
+        metas[i].setAttribute('content', window.location.href);
+    }
+}
+
 function getRandom(min,max){
     return Math.floor(Math.random()*(max-min+1))+min;
 };

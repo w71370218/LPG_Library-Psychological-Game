@@ -8,13 +8,21 @@
     <meta name="keywords" content="輔大圖書館,圖書館,心理測驗,書圖同歸,測驗,趣味測驗,輔大,圖書館推廣活動">
     <meta name="description" content="在茫茫書海中，找到屬於你的書。">
 
+    <meta property="og:url" content="{{ request.path }}" />
     <meta property="og:type" content="website" /> 
     <meta property="og:title" content="書圖同歸：在茫茫書海中，找到屬於你的書。" />
     <meta property="og:description" content="在茫茫書海中，找到屬於你的書。" />
     <meta property="og:locate" content="zh_tw" />
-    <meta property="og:image" content="{{ og }}" />
+    <meta property="og:image" content="data:image/png;base64, {{ img }}" alt="Red dot"/>
     <script type="text/javascript">
-    	document.location.href= {% url 'app' %};
+    	 metas = document.getElementsByTagName('meta');
+    	 for (let i = 0; i < metas.length; i++) {
+		    if (metas[i].getAttribute('property') === "og:url") {
+		        metas[i].setAttribute('content', window.location.href);
+		    }
+		}
+    	
+    	//document.location.href= {% url 'app' %};
     </script>
 </head>
 <body>

@@ -5,6 +5,10 @@ from django.utils import timezone
 #class File(models.Model):
 #	file = models.FileField(blank=True, null=True)
 
+class Icon(models.Model):
+	icon =  models.ImageField(upload_to='icon',blank=True, null=True, verbose_name='圖片')
+	description = models.CharField(max_length=100,blank=True, null=True, verbose_name='描述')
+
 class Test(models.Model):
 	question = models.TextField(blank=True, null=True)
 

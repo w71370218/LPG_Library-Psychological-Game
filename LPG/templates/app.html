@@ -8,11 +8,14 @@
     <meta name="keywords" content="輔大圖書館,圖書館,心理測驗,書圖同歸,測驗,趣味測驗,輔大,圖書館推廣活動">
     <meta name="description" content="在茫茫書海中，找到屬於你的書。">
 
+    <meta property="og:url" content="{{ request.path }}" />
     <meta property="og:type" content="website" /> 
     <meta property="og:title" content="書圖同歸：在茫茫書海中，找到屬於你的書。" />
     <meta property="og:description" content="在茫茫書海中，找到屬於你的書。" />
     <meta property="og:locate" content="zh_tw" />
     <meta property="og:image" content="https://i.imgur.com/dCTfONT.jpg" />
+
+    <link rel="icon" type="image/x-icon" href="{{ logo_icon }}">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="{% static 'css/app.css' %}">

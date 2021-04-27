@@ -13,6 +13,8 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import boto3
 import io
+import base64
+from PIL import Image
 
 def hello_world(request):
 # return HttpResponse("Hello World!")
@@ -42,9 +44,9 @@ def app(request):
 	choice_list = Choice.objects.all()
 	type_list = Type.objects.all()
 	book_list = Booklist.objects.all()
-
+	logo_icon = Icon.objects.get(description="logo_icon").icon.url
 	return render(request, 'app.html', {
-		'test_list': test_list, 'choice_list': choice_list, 'type_list': type_list, 'book_list': book_list, 'test_num':test_num,
+		'test_list': test_list, 'choice_list': choice_list, 'type_list': type_list, 'book_list': book_list, 'test_num':test_num, 'logo_icon':logo_icon
 		})
 
 def administration(request):
@@ -272,12 +274,18 @@ def upload_booklist_file(request):
 
 
 def share_book(request,id):
-	if request.method == 'POST':
-		book = get_object_or_404(Booklist, id=id)
-		og = book.picturename.url
-		return render(request, 'share_book.html', {'og': og})
-	else:
-		return HttpResponseRedirect('/app/')
+
+	book = get_object_or_404(Booklist, id=id)
+	img_url = str(book.picturename)
+	s3 = boto3.resource('s3', region_name='us-east-2', aws_access_key_id=settings.AWS_ACCESS_KEY_ID, aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+	obj = s3.Object('fjulpg',img_url)
+	file_stream = io.BytesIO()
+	obj.download_fileobj(file_stream)
+	img = base64.b64encode(file_stream.getvalue())
+	img = str(img)[2:-1]
+	return render(request, 'share_book.html', {'img': img})
+
+
 
 def process_share_image(img, pk):
 
