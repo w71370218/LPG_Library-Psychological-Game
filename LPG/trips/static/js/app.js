@@ -183,6 +183,5 @@ function HiddenDiv() {
     if (document.readyState == "complete") {
         var loadingMask = document.getElementById('loadingDiv');
         loadingMask.parentNode.removeChild(loadingMask);
-        document.getElementById("resultDiv").style.visibility = "visible";
     }
 }
