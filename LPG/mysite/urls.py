@@ -34,6 +34,7 @@ urlpatterns = [
     path('upload_test_file/',upload_test_file, name='upload_test_file'),
     path('upload_booklist_file/',upload_booklist_file, name='upload_booklist_file'),
     path('process_result_from_client/',process_result_from_client, name='process_result_from_client'),
+    path('proccess_single_test/',proccess_single_test,name='proccess_single_test'),
     path('accounts/', include('django.contrib.auth.urls')),
     re_path(r'^share_book/(?P<id>[0-9]+)/og/$', share_book, name='share_book'),
     re_path(r'^test/new/$', test_new, name='test_new'),

@@ -8,6 +8,7 @@ from random import randint
 from .forms import *
 from django.contrib import auth, messages
 from django.core.serializers import serialize
+import datetime
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -123,13 +124,30 @@ def test_edit(request, pk):
 	else:
 		form = TestForm(instance=test)
 	return render(request, 'test_edit.html', {'form': form})
-##########未完成
+
 def single_new_test(request):
 	test_list = Test.objects.all()
 	new_test_id = test_list.order_by('-id')[0]
 	new_test_num = new_test_id.id + 1
 	return render(request, 'single_new_test.html', {'new_test_num':new_test_num})
-##########
+
+def proccess_single_test(request):
+	if request.method == "POST":
+		test_list = Test.objects.all()
+		choice_list = Choice.objects.all()
+		type_list = Type.objects.all()
+		question = request.POST.get('form[question]')
+		Test.objects.create(question=question)
+		choice_num = (len(request.POST)-2)//2
+		for i in range(1,choice_num+1):
+			choice_text = request.POST.get('form[choice_text'+str(i)+']')
+			choice_type = request.POST.get('form[choice_type'+str(i)+']')
+			i_test = test_list.filter(question=question)
+			i_choice = Choice.objects.create(question=i_test[0], choice_number=i, text=choice_text)
+			Type.objects.create(choice=i_choice,text=choice_type)
+		return JsonResponse({'message':'新增成功!'}, safe=False, json_dumps_params={'ensure_ascii': False}, content_type="application/json")
+	else:
+		return render(request, 'single_new_test.html')
 
 def single_new_book(request):
 	if request.method == "POST":
@@ -163,13 +181,19 @@ def pointrecord_new(request):
 		form = PointRecordForm(request.POST)
 		if form.is_valid():
 			pointrecord = form.save(commit=False)
-			if not pointrecord_list.filter(studentID=pointrecord.studentID , ISBN=pointrecord.ISBN):
-				pointrecord.date = timezone.now()
-				pointrecord.save()
-				messages.success(request, '成功紀錄!')
-				return redirect('/pointrecord/new/', pk=pointrecord.pk)
+			now = datetime.datetime.now()
+			pointrecord_for_today = pointrecord_list.filter(studentID=pointrecord.studentID, date__year=now.year, date__month=now.month, date__day=now.day)
+			if len(pointrecord_for_today) <= 3:
+				if not pointrecord_list.filter(studentID=pointrecord.studentID , ISBN=pointrecord.ISBN):
+					pointrecord.date = timezone.now()
+					pointrecord.save()
+					messages.success(request, '成功紀錄!')
+					return redirect('/pointrecord/new/', pk=pointrecord.pk)
+
+				else:
+					messages.error(request, '重複的紀錄無法輸入')
 			else:
-				messages.error(request, '重複的紀錄無法輸入')
+				messages.error(request, '今天借閱紀錄已達上限')
 	else:
 		form = PointRecordForm()
 	return render(request, 'pointrecord_edit.html', {'form':form, 'recent_pointrecord_list': recent_pointrecord_list})
@@ -215,13 +239,14 @@ def process_result_from_client(request):
 	result_book_list = book_list.exclude(id__in=exclude_id_list).order_by('?')
 	if len(result_book_list) >= book_num:
 		result_book_list = result_book_list[:book_num]
-
 	c = 0
 	for book in result_book_list:
 		result_book_list[c].picturename = result_book_list[c].picturename.url
 		c += 1
 
 	serialized_book_list = serialize('json', result_book_list)
+	if len(result_book_list) == 0:
+		serialized_book_list = '[{"message":"對不起 本類的書太熱門了 目前在圖書館中已經借完了"}]'
 	return JsonResponse(serialized_book_list, safe=False, json_dumps_params={'ensure_ascii': False}, content_type="application/json")
 
 
