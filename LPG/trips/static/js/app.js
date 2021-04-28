@@ -36,10 +36,6 @@ function start() {
 function submit() {
     var result;
     var i = getScore();
-    console.log(i[0]);
-    console.log(i[1]);
-    console.log(i[2]);
-    console.log(i[3]);
     if (i.nthIndexOf(Math.max(...i),2) === -1){
         result = i.indexOf(Math.max(...i))+1
     } else {
@@ -51,9 +47,7 @@ function submit() {
             result = (i.nthIndexOf(Math.max(...i),2))+1;
         }
     }
-    console.log(result);
     const csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
-    console.log(csrfmiddlewaretoken);
 
     document.getElementById("test_page").innerHTML = "";
     document.getElementById("result_page").style.visibility = "visible";
@@ -100,17 +94,12 @@ function submit() {
                     var newDiv = document.createElement("div");
                     newDiv.class = "book";
                     newDiv.id = (i+1).toString();
-                    //json[i].fields
                     for (var j = 0; j < (Object.values(json[i].fields).length)-2; j++){
                         fields = json[i].fields;
-                        //console.log(fields);
-                        console.log(Object.keys(fields)[j]);
-                        console.log(Object.values(fields)[j]);
                         var keyDiv = document.createElement("div");
                         keyDiv.className = Object.keys(fields)[j].toString();
                         var value = Object.values(fields)[j].toString();
                         if (Object.keys(fields)[j] === 'picturename'){
-                            
                             var key = document.createElement("img")
                             key.src = value;
                             key.className = "picture";
@@ -124,7 +113,6 @@ function submit() {
                     document.getElementById("result_page").appendChild(newDiv);
 
                     share_url = window.location.href.replace("app/","process_result_from_client/");
-                    console.log(window.location.href);
                     fb_share_button = document.createElement("div");
                     fb_share_button.className = "fb-share-button";
                     now_url = window.location.href;
