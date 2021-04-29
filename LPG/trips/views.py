@@ -218,28 +218,52 @@ def process_result_from_client(request):
 	book_num = 3
 	result = int(request.POST.get('result'))
 	book_list = Booklist.objects.filter(typeof=result)
-	
+#processing result of booklist	
 	library_url = "https://library.lib.fju.edu.tw:444/search*cht/?searchtype=i&searcharg="
-	exclude_id_list = list()
-	for book in book_list:
-		book_library_url = "https://library.lib.fju.edu.tw:444/search*cht/?searchtype=Y&searcharg="+ str(book.callnumber)
-		res_text = requests.get(book_library_url).text
-		soup = BeautifulSoup(res_text , 'html.parser')
-		find_soup = soup.find_all('td',width="16%")
-		available_bool = 0
-		if len(find_soup) > 1:
-			for i in find_soup:
-				if '可外借' in i.text:
+	exclude_id_list = set()
+	result_book_id = set()
+	while len(exclude_id_list) != len(book_list) and len(result_book_id)<3:
+		temp_book_list = book_list.exclude(id__in=exclude_id_list).order_by('?')[:(3-len(result_book_id))]
+		for book in temp_book_list:
+			print(book.callnumber)
+			book_library_url = "https://library.lib.fju.edu.tw:444/search*cht/?searchtype=Y&searcharg="+ str(book.callnumber)
+			res_text = requests.get(book_library_url).text
+			soup = BeautifulSoup(res_text , 'html.parser')
+			find_soup = soup.find_all('td',width="16%")
+			print(find_soup)
+			available_bool = 0
+			if len(find_soup) > 1:
+				for i in find_soup:
 					available_bool = 1
-					break
-		else:
-			if '可外借' in find_soup[0].text:
-				available_bool = 1
-		if available_bool == 0:
-			exclude_id_list.append(book.id)
-	result_book_list = book_list.exclude(id__in=exclude_id_list).order_by('?')
-	if len(result_book_list) >= book_num:
-		result_book_list = result_book_list[:book_num]
+					result_book_id.add(book.id)
+			else:
+				if '可外借' in find_soup[0].text:
+					available_bool = 1
+			if available_bool == 0:
+				exclude_id_list.add(book.id)
+	result_book_list = book_list.filter(id__in=result_book_id)
+#old code : because in heroku using this code will be get error that "WORKER TIME OUT", but new code maybe have same bug, in sercurity, keep old code
+#	for book in book_list:
+#		book_library_url = "https://library.lib.fju.edu.tw:444/search*cht/?searchtype=Y&searcharg="+ str(book.callnumber)
+#		res_text = requests.get(book_library_url).text
+#		soup = BeautifulSoup(res_text , 'html.parser')
+#		find_soup = soup.find_all('td',width="16%")
+#		available_bool = 0
+#		if len(find_soup) > 1:
+#			for i in find_soup:
+#				if '可外借' in i.text:
+#					available_bool = 1
+#					break
+#		else:
+#			if '可外借' in find_soup[0].text:
+#				available_bool = 1
+#		if available_bool == 0:
+#			exclude_id_list.append(book.id)
+#	result_book_list = book_list.exclude(id__in=exclude_id_list).order_by('?')
+#	if len(result_book_list) >= book_num:
+#		result_book_list = result_book_list[:book_num]
+
+#processing image
 	c = 0
 	for book in result_book_list:
 		if result_book_list[c].share_img == None:
