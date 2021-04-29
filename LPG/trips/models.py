@@ -8,8 +8,8 @@ from django.utils import timezone
 class ShareImg(models.Model):
 	img = models.ImageField(upload_to='share_img',blank=True, null=True, verbose_name='圖片')
 
-class Icon(models.Model):
-	icon =  models.ImageField(upload_to='icon',blank=True, null=True, verbose_name='圖片')
+class Img(models.Model):
+	img =  models.ImageField(upload_to='img',blank=True, null=True, verbose_name='圖片')
 	description = models.CharField(max_length=100,blank=True, null=True, verbose_name='描述')
 
 class Test(models.Model):

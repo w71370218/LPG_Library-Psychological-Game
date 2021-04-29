@@ -46,7 +46,7 @@ def app(request):
 	choice_list = Choice.objects.all()
 	type_list = Type.objects.all()
 	book_list = Booklist.objects.all()
-	logo_icon = Icon.objects.get(description="logo_icon").icon.url
+	logo_icon = Img.objects.get(description="logo_icon").img.url
 	return render(request, 'app.html', {
 		'test_list': test_list, 'choice_list': choice_list, 'type_list': type_list, 'book_list': book_list, 'test_num':test_num, 'logo_icon':logo_icon
 		})
@@ -234,8 +234,10 @@ def process_result_from_client(request):
 			available_bool = 0
 			if len(find_soup) > 1:
 				for i in find_soup:
-					available_bool = 1
-					result_book_id.add(book.id)
+					if '可外借' in i.text:
+						available_bool = 1
+						result_book_id.add(book.id)
+						break
 			else:
 				if '可外借' in find_soup[0].text:
 					available_bool = 1
@@ -266,9 +268,9 @@ def process_result_from_client(request):
 #processing image
 	c = 0
 	for book in result_book_list:
-		if result_book_list[c].share_img == None:
-			img_url = str(result_book_list[c].picturename)
-			img = process_share_image(img_url)
+		if book.share_img == None:
+			picture = book.picturename
+			img = process_share_image(picture)
 			share_img = ShareImg.objects.create()
 			share_img.img = img
 			share_img.save()
@@ -343,21 +345,42 @@ def share_book(request,id):
 	#img = str(img)[2:-1]
 	return render(request, 'share_book.html', {'img': img_url})
 
+#********
+# reserved img  
+# size: 384* 384 px
+# x: 115
+# y: 123
+#********
+def process_share_image(img):
+	# Open img file
+	FB_share = Img.objects.get(description="FB_share_Transparent").img
+	book_img = Image.open(img)
+	book_img = book_img.convert('RGB')
+	FB_share_temp = Image.open(FB_share)
+	reserved_size = (384,384)
+	adjust_coordinate = (115,123)
 
-def process_share_image(img_url):
-	aws_access_key_id = settings.AWS_ACCESS_KEY_ID 
-	aws_secret_access_key = settings.AWS_SECRET_ACCESS_KEY
-	s3 = boto3.resource('s3', region_name='us-east-2', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
-	obj = s3.Object('fjulpg',img_url)
-	print(img_url)
-	print(obj)
-	file_stream = io.BytesIO()
-	obj.download_fileobj(file_stream)
-	print(file_stream)
-	#image_data = file_stream.getvalue()
-	img = Image.open(file_stream)
-	img = img.convert('RGB')
+	# Process share img
+	width, height = book_img.size
+	if width < height:
+		if height > reserved_size[1]:
+			book_img = book_img.thumbnail(reserved_size)
+		else:
+			book_img = book_img.resize((int(reserved_size[0]/height*width),reserved_size[1]))
+		width, height = book_img.size
+		FB_share_temp.paste(book_img, (int(adjust_coordinate[0]+((reserved_size[0]-width)/2)), adjust_coordinate[1]))
+	else:
+		if width > reserved_size[0]:
+			book_img = book_img.thumbnail(reserved_size)
+		else:
+			book_img = book_img.resize((reserved_size[0],int(reserved_size[1]/width*height)))
+		width, height = book_img.size
+		FB_share_temp.paste(book_img, (adjust_coordinate[0],int(adjust_coordinate[1]+((reserved_size[1]-height)/2))))
+	
+
+
+	# Save share img
 	buffer1 = io.BytesIO()
-	img.save(fp=buffer1, format='JPEG')
+	FB_share_temp.save(fp=buffer1, format='JPEG')
 	return ContentFile(buffer1.getvalue(), 'share_img.jpg')
 	#return HttpResponse(image_data, content_type="image/png")
