@@ -331,7 +331,7 @@ def process_share_image(img_url):
 	obj.download_fileobj(file_stream)
 	print(file_stream)
 	#image_data = file_stream.getvalue()
-	img = Image.open(file_stream)
+	img = Image.open(file_stream).convert('RGB')
 	buffer1 = io.BytesIO()
 	img.save(fp=buffer1, format='JPEG')
 	return ContentFile(buffer1.getvalue(), 'share_img.jpg')
