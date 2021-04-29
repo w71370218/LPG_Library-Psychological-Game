@@ -16,7 +16,12 @@
 	<form method="POST" class="pointrecord-form form-group" enctype="multipart/form-data">
 		{% csrf_token %}
 		{{ form.as_p }}
-		<button type="submit" class="save btn btn-info">新增</button>
+		<label for="choice_num">類別:</label>
+		<select name="choice_num" id="choice_num" class="form-control" onchange="choice_num_change()">
+		  <option value="2">活動推薦書</option>
+		  <option value="4">其他書</option>
+		</select>
+		<button type="submit" class="save btn btn-info" style="margin-top: 50px">新增</button>
 	</form>
 	<div>
 		<h1>最近三筆集點紀錄</h1>

@@ -94,7 +94,7 @@ function submit() {
                     var newDiv = document.createElement("div");
                     newDiv.class = "book";
                     newDiv.id = (i+1).toString();
-                    for (var j = 0; j < (Object.values(json[i].fields).length)-2; j++){
+                    for (var j = 0; j < (Object.values(json[i].fields).length)-3; j++){
                         fields = json[i].fields;
                         var keyDiv = document.createElement("div");
                         keyDiv.className = Object.keys(fields)[j].toString();

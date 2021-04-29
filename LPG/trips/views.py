@@ -8,6 +8,7 @@ from random import randint
 from .forms import *
 from django.contrib import auth, messages
 from django.core.serializers import serialize
+from django.core.files.base import ContentFile
 import datetime
 import requests
 from bs4 import BeautifulSoup
@@ -127,8 +128,8 @@ def test_edit(request, pk):
 
 def single_new_test(request):
 	test_list = Test.objects.all()
-	new_test_id = test_list.order_by('-id')[0]
-	new_test_num = new_test_id.id + 1
+	new_test_id = len(test_list)
+	new_test_num = new_test_id + 1
 	return render(request, 'single_new_test.html', {'new_test_num':new_test_num})
 
 def proccess_single_test(request):
@@ -241,6 +242,14 @@ def process_result_from_client(request):
 		result_book_list = result_book_list[:book_num]
 	c = 0
 	for book in result_book_list:
+		if result_book_list[c].share_img == None:
+			img_url = str(result_book_list[c].picturename)
+			img = process_share_image(img_url)
+			share_img = ShareImg.objects.create()
+			share_img.img = img
+			share_img.save()
+			result_book_list[c].share_img = share_img
+			result_book_list[c].save()
 		result_book_list[c].picturename = result_book_list[c].picturename.url
 		c += 1
 
@@ -297,21 +306,33 @@ def upload_booklist_file(request):
 		form = UploadBooklistFileForm()
 	return render(request, 'upload_booklist_file.html', {'form': form})
 
-
 def share_book(request,id):
-
 	book = get_object_or_404(Booklist, id=id)
-	img_url = str(book.picturename)
-	s3 = boto3.resource('s3', region_name='us-east-2', aws_access_key_id=settings.AWS_ACCESS_KEY_ID, aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+	img_url = book.share_img.img.url
+	#aws_access_key_id = settings.AWS_ACCESS_KEY_ID 
+	#aws_secret_access_key = settings.AWS_SECRET_ACCESS_KEY
+	#s3 = boto3.resource('s3', region_name='us-east-2', aws_access_key_id=aws_access_key_id, aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+	#obj = s3.Object('fjulpg',img_url)
+	#file_stream = io.BytesIO()
+	#obj.download_fileobj(file_stream)
+	#img = base64.b64encode(file_stream.getvalue())
+	#img = str(img)[2:-1]
+	return render(request, 'share_book.html', {'img': img_url})
+
+
+def process_share_image(img_url):
+	aws_access_key_id = settings.AWS_ACCESS_KEY_ID 
+	aws_secret_access_key = settings.AWS_SECRET_ACCESS_KEY
+	s3 = boto3.resource('s3', region_name='us-east-2', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
 	obj = s3.Object('fjulpg',img_url)
+	print(img_url)
+	print(obj)
 	file_stream = io.BytesIO()
 	obj.download_fileobj(file_stream)
-	img = base64.b64encode(file_stream.getvalue())
-	img = str(img)[2:-1]
-	return render(request, 'share_book.html', {'img': img})
-
-
-
-def process_share_image(img, pk):
-
-	print(123)
+	print(file_stream)
+	#image_data = file_stream.getvalue()
+	img = Image.open(file_stream)
+	buffer1 = io.BytesIO()
+	img.save(fp=buffer1, format='JPEG')
+	return ContentFile(buffer1.getvalue(), 'share_img.jpg')
+	#return HttpResponse(image_data, content_type="image/png")
