@@ -222,7 +222,7 @@ def process_result_from_client(request):
 	library_url = "https://library.lib.fju.edu.tw:444/search*cht/?searchtype=i&searcharg="
 	exclude_id_list = list()
 	for book in book_list:
-		book_library_url = "https://library.lib.fju.edu.tw:444/search*cht/?searchtype=i&searcharg="+ str(book.ISBN)
+		book_library_url = "https://library.lib.fju.edu.tw:444/search*cht/?searchtype=Y&searcharg="+ str(book.callnumber)
 		res_text = requests.get(book_library_url).text
 		soup = BeautifulSoup(res_text , 'html.parser')
 		find_soup = soup.find_all('td',width="16%")
