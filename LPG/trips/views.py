@@ -47,8 +47,9 @@ def app(request):
 	type_list = Type.objects.all()
 	book_list = Booklist.objects.all()
 	logo_icon = Img.objects.get(description="logo_icon").img.url
+	FB_share_Default = Img.objects.get(description="FB_share_Default").img.url
 	return render(request, 'app.html', {
-		'test_list': test_list, 'choice_list': choice_list, 'type_list': type_list, 'book_list': book_list, 'test_num':test_num, 'logo_icon':logo_icon
+		'test_list': test_list, 'choice_list': choice_list, 'type_list': type_list, 'book_list': book_list, 'test_num':test_num, 'logo_icon':logo_icon, "FB_share_Default":FB_share_Default
 		})
 
 def administration(request):
@@ -270,7 +271,38 @@ def process_result_from_client(request):
 	for book in result_book_list:
 		if book.share_img == None:
 			picture = book.picturename
-			img = process_share_image(picture)
+			FB_share = Img.objects.get(description="FB_share_Transparent").img
+			book_img = Image.open(picture)
+			book_img.load()
+			book_img.split()
+			book_img = book_img.convert('RGB')
+			FB_share_temp = Image.open(FB_share)
+			reserved_size = (384,384)
+			adjust_coordinate = (115,123)
+			width, height = book_img.size
+			if width < height:
+				if height > reserved_size[1]:
+					book_img = book_img.thumbnail(reserved_size)
+				else:
+					book_img = book_img.resize((int(reserved_size[0]/height*width),reserved_size[1]))
+				width, height = book_img.size
+				FB_share_temp.paste(book_img, (int(adjust_coordinate[0]+((reserved_size[0]-width)/2)), adjust_coordinate[1]))
+			else:
+				if width > reserved_size[0]:
+					book_img = book_img.thumbnail(reserved_size)
+				else:
+					book_img = book_img.resize((reserved_size[0],int(reserved_size[1]/width*height)))
+				width, height = book_img.size
+				FB_share_temp.paste(book_img, (adjust_coordinate[0],int(adjust_coordinate[1]+((reserved_size[1]-height)/2))))
+
+			# Save share img
+			buffer1 = io.BytesIO()
+			FB_share_temp.save(fp=buffer1, format='JPEG')
+			#return ContentFile(buffer1.getvalue(), 'share_img.jpg')
+			img = ContentFile(buffer1.getvalue(), 'share_img.jpg')
+
+			
+			#img = process_share_image(picture)
 			share_img = ShareImg.objects.create()
 			share_img.img = img
 			share_img.save()
