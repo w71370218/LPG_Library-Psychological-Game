@@ -1,4 +1,4 @@
-metas = document.getElementsByTagName('meta');
+const metas = document.getElementsByTagName('meta');
  for (let i = 0; i < metas.length; i++) {
     if (metas[i].getAttribute('property') === "og:url") {
         metas[i].setAttribute('content', window.location.href);
@@ -123,6 +123,7 @@ function submit() {
                     
                     
                 };
+
                 (function(d, s, id) {
                         var js, fjs = d.getElementsByTagName(s)[0];
                         if (d.getElementById(id)) return;
@@ -130,8 +131,16 @@ function submit() {
                         js.src = "https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v3.0";
                         fjs.parentNode.insertBefore(js, fjs);
                     }(document, 'script', 'facebook-jssdk'));
-                }
 
+                const recommend_button = document.createElement("button");
+                
+
+                recommend_button.innerHTML = "推薦書給我們";
+
+                recommend_button.setAttribute('onclick', 'window.open(window.location.href.replace("app/","recommend/'+result.toString() +'","_blank"))');
+                document.getElementById("result_page").appendChild(recommend_button);
+                }
+                
         },
         error: function(xhr,errmsg,err){
             console.log("Could not send URL to Django. Error: " + xhr.status + ": " + xhr.responseText);

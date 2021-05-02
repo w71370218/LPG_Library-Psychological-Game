@@ -71,7 +71,7 @@
         <div>
             目前題數 : {{ forloop.counter }} / {{ test_num }}
         </div>
-        {{ test.id }}
+        {{ forloop.counter }}
         {{ test.question }}
         {% for choice in choice_list %}
                 {% if test.id == choice.question_id %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.conf import settings
+from django.db.models import Count
 from datetime import datetime
 from django.utils import timezone
 from trips.models import *
@@ -56,7 +57,21 @@ def administration(request):
 	question_num = Test.objects.all().count()
 	book_num = Booklist.objects.all().count()
 	pointrecord_num = PointRecord.objects.all().count()
-	return render(request, 'administration.html', {'question_num': question_num, 'book_num':book_num, 'pointrecord_num':pointrecord_num})
+	recommend_num = Recommend.objects.all().count()
+	pointrecord_count = PointRecord.objects.values('studentID').annotate(count=Count('studentID'))
+	try:
+		pointrecord_1st = pointrecord_count.order_by('-count')[0]['studentID']
+	except:
+		pointrecord_1st = '從缺'
+	try:
+		pointrecord_2nd = pointrecord_count.order_by('-count')[1]['studentID']
+	except:
+		pointrecord_2nd = '從缺'
+	try:	
+		pointrecord_3nd = pointrecord_count.order_by('-count')[2]['studentID']
+	except:
+		 pointrecord_3nd = '從缺'
+	return render(request, 'administration.html', {'question_num': question_num, 'book_num':book_num, 'pointrecord_num':pointrecord_num, 'recommend_num':recommend_num,'pointrecord_1st':pointrecord_1st,'pointrecord_2nd':pointrecord_2nd,'pointrecord_3nd':pointrecord_3nd})
 
 def booklist(request):
 	book_list = Booklist.objects.all()
@@ -184,18 +199,30 @@ def pointrecord_new(request):
 		if form.is_valid():
 			pointrecord = form.save(commit=False)
 			now = datetime.datetime.now()
-			pointrecord_for_today = pointrecord_list.filter(studentID=pointrecord.studentID, date__year=now.year, date__month=now.month, date__day=now.day)
-			if len(pointrecord_for_today) <= 3:
-				if not pointrecord_list.filter(studentID=pointrecord.studentID , ISBN=pointrecord.ISBN):
+			if pointrecord.typeof == 1 or pointrecord.typeof == 2:
+				
+				pointrecord_for_today = pointrecord_list.filter(studentID=pointrecord.studentID, date__year=now.year, date__month=now.month, date__day=now.day)
+				if len(pointrecord_for_today) < 3:
+					if not pointrecord_list.filter(studentID=pointrecord.studentID , ISBN=pointrecord.ISBN):
+						pointrecord.date = timezone.now()
+						pointrecord.save()
+						messages.success(request, '成功紀錄!')
+						return redirect('/pointrecord/new/', pk=pointrecord.pk)
+
+					else:
+						messages.error(request, '重複的紀錄無法輸入')
+				else:
+					messages.error(request, '今天借閱紀錄已達上限')
+			elif pointrecord.typeof == 4: # 3:recommend 4:share
+				pointrecord_for_stuednt = pointrecord_list.filter(studentID=pointrecord.studentID)
+				if len(pointrecord_for_stuednt) == 0:
 					pointrecord.date = timezone.now()
 					pointrecord.save()
 					messages.success(request, '成功紀錄!')
 					return redirect('/pointrecord/new/', pk=pointrecord.pk)
-
 				else:
-					messages.error(request, '重複的紀錄無法輸入')
-			else:
-				messages.error(request, '今天借閱紀錄已達上限')
+					messages.error(request, '已經分享過了, 紀錄已存在')
+
 	else:
 		form = PointRecordForm()
 	return render(request, 'pointrecord_edit.html', {'form':form, 'recent_pointrecord_list': recent_pointrecord_list})
@@ -226,12 +253,10 @@ def process_result_from_client(request):
 	while len(exclude_id_list) != len(book_list) and len(result_book_id)<3:
 		temp_book_list = book_list.exclude(id__in=exclude_id_list).order_by('?')[:(3-len(result_book_id))]
 		for book in temp_book_list:
-			print(book.callnumber)
 			book_library_url = "https://library.lib.fju.edu.tw:444/search*cht/?searchtype=Y&searcharg="+ str(book.callnumber)
 			res_text = requests.get(book_library_url).text
 			soup = BeautifulSoup(res_text , 'html.parser')
 			find_soup = soup.find_all('td',width="16%")
-			print(find_soup)
 			available_bool = 0
 			if len(find_soup) > 1:
 				for i in find_soup:
@@ -242,8 +267,11 @@ def process_result_from_client(request):
 			else:
 				if '可外借' in find_soup[0].text:
 					available_bool = 1
+					result_book_id.add(book.id)
+					break
 			if available_bool == 0:
 				exclude_id_list.add(book.id)
+
 	result_book_list = book_list.filter(id__in=result_book_id)
 #old code : because in heroku using this code will be get error that "WORKER TIME OUT", but new code maybe have same bug, in sercurity, keep old code
 #	for book in book_list:
@@ -271,25 +299,30 @@ def process_result_from_client(request):
 	for book in result_book_list:
 		if book.share_img == None:
 			picture = book.picturename
+			print(picture)
 			FB_share = Img.objects.get(description="FB_share_Transparent").img
+
 			book_img = Image.open(picture)
 			book_img.load()
-			book_img.split()
+			width, height= book_img.size
+
 			book_img = book_img.convert('RGB')
+
 			FB_share_temp = Image.open(FB_share)
 			reserved_size = (384,384)
 			adjust_coordinate = (115,123)
-			width, height = book_img.size
+
 			if width < height:
 				if height > reserved_size[1]:
-					book_img = book_img.thumbnail(reserved_size)
+					book_img.thumbnail(reserved_size)
 				else:
 					book_img = book_img.resize((int(reserved_size[0]/height*width),reserved_size[1]))
+
 				width, height = book_img.size
 				FB_share_temp.paste(book_img, (int(adjust_coordinate[0]+((reserved_size[0]-width)/2)), adjust_coordinate[1]))
 			else:
 				if width > reserved_size[0]:
-					book_img = book_img.thumbnail(reserved_size)
+					book_img.thumbnail(reserved_size)
 				else:
 					book_img = book_img.resize((reserved_size[0],int(reserved_size[1]/width*height)))
 				width, height = book_img.size
@@ -325,16 +358,20 @@ def upload_test_file(request):
 		form = UploadFileForm(request.POST, request.FILES)
 		if form.is_valid():
 			print(request.FILES['file'])
-			df = pd.read_csv(request.FILES['file'])
-			data = df.values.tolist()
-			for i in data:
-				if not test_list.filter(question=i[0]):
-					Test.objects.create(question=i[0])
-				i_test = test_list.filter(question=i[0])
-				i_choice = Choice.objects.create(question=i_test[0], choice_number=i[1], text=i[2])
-				Type.objects.create(choice=i_choice,text=i[3])
-			messages.info(request, '上傳成功!')
-			return HttpResponseRedirect('/testlist/')
+			try:
+				df = pd.read_csv(request.FILES['file'])
+				data = df.values.tolist()
+				for i in data:
+					if not test_list.filter(question=i[0]):
+						Test.objects.create(question=i[0])
+					i_test = test_list.filter(question=i[0])
+					i_choice = Choice.objects.create(question=i_test[0], choice_number=i[1], text=i[2])
+					Type.objects.create(choice=i_choice,text=i[3])
+				messages.info(request, '上傳成功!')
+				return HttpResponseRedirect('/testlist/')
+			except:
+				messages.error(request, '檔案資料不正確或內部錯誤!')
+
 	else:
 		form = UploadFileForm()
 	return render(request, 'upload_test_file.html', {'form': form})
@@ -377,6 +414,36 @@ def share_book(request,id):
 	#img = str(img)[2:-1]
 	return render(request, 'share_book.html', {'img': img_url})
 
+def recommend_list(request):
+	recommend_list = Recommend.objects.all()
+	
+	return render(request, 'recommend_list.html', {
+		'recommend_list': recommend_list
+		})
+
+def recommend_new(request,result):
+	recommend_list = Recommend.objects.all()
+	pointrecord_list = PointRecord.objects.all()
+	if request.method == "POST":
+		form = RecommendForm(request.POST)
+		if form.is_valid():
+			recommend = form.save(commit=False)
+			recommend.typeof = result
+			recommend.date = timezone.now()
+			recommend.save()
+			
+			pointrecord_for_stuedent = pointrecord_list.filter(studentID=recommend.studentID, typeof=3)
+			if len(pointrecord_for_stuedent) == 0:
+				pointrecord = PointRecord.objects.create(studentID=recommend.studentID, typeof=3)
+				pointrecord.date = timezone.now()
+				pointrecord.save()
+				messages.success(request, '成功提交!您已經獲得一點!')
+
+			else:
+				messages.success(request, '成功提交!')
+	else:
+		form = RecommendForm()
+	return render(request, 'recommend.html', {'form':form})
 #********
 # reserved img  
 # size: 384* 384 px

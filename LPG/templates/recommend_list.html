@@ -1,36 +1,33 @@
 {% extends 'base.html' %}
 <head>
     {% block title %}
-        <title>集點紀錄 | Test Admin</title>
+        <title>讀者推薦書 | Test Admin</title>
     {% endblock %}
 </head>
 <body>
     {% block content %}
 	    {% if request.user.is_superuser %}
 	    <div>
-	    		<h1>集點紀錄</h1>
+	    		<h1>讀者推薦書</h1>
 	    	</div>
-	    	<a href="{% url 'pointrecord_new' %}">
-	    		<button class="btn border border-info bg-white text-info">新增紀錄</button>
-	    	</a>
 		    <table class="table">
 				  <thead>
 				  	<tr>
 				      <th scope="col">#</th>
 				      <th scope="col">學號</th>
-				      <th scope="col">ISBN</th>
 				      <th scope="col">類型</th>
-				      <th scope="col">日期</th>
+				      <th scope="col">推薦內容</th>
+				      <th scope="col">時間</th>
 				    </tr>
 				  </thead>
 				  <tbody>
-		    		{% for pointrecord in pointrecord_list %}	  
+		    		{% for recommend in recommend_list %}	  
 				    <tr>
 				      <th scope="row">{{ forloop.counter }}</th>
-				      <td>{{ pointrecord.studentID }}</td>
-				      <td>{{ pointrecord.ISBN }}</td>
-				      <td>{{ pointrecord.get_typeof_display }}</td>
-				      <td>{{ pointrecord.date }}</td>
+				      <td>{{ recommend.studentID }}</td>
+				      <td>{{ recommend.typeof }}</td>
+				      <td>{{ recommend.text }}</td>
+				      <td>{{ recommend.date }}</td>
 				    </tr>
 		    		{% endfor %}
 		    	</tbody>

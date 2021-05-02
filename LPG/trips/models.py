@@ -52,10 +52,17 @@ class Booklist(models.Model):
 	def __str__(self):
 		return str(self.ISBN)
 
+TYPE_CHOICES = [
+    (1, "測驗推薦書"),
+    (2, "其他書"),
+    (3, "推薦書籍"),
+    (4, "分享")
+]
 class PointRecord(models.Model):
 	date = models.DateTimeField(blank=True, null=True, verbose_name='日期')
 	studentID = models.IntegerField(blank=True, null=True, verbose_name='學號')
 	ISBN = models.CharField(max_length=13,blank=True, null=True, verbose_name='ISBN')
+	typeof = models.IntegerField(max_length=10,choices=TYPE_CHOICES, verbose_name='類型' ,default=1)
 
 	def earn(self):
 		self.date = timezone.now()
@@ -63,3 +70,16 @@ class PointRecord(models.Model):
 
 	def __str__(self):
 		return str(self.id)+" : "+str(self.studentID)
+
+class Recommend(models.Model):
+	date = models.DateTimeField(blank=True, null=True, verbose_name='日期')
+	studentID = models.IntegerField(blank=True, null=True, verbose_name='學號')
+	typeof = models.IntegerField(blank=True, null=True, verbose_name='類型')
+	text = models.TextField(blank=True, null=True, verbose_name='推薦內容')
+
+	def create(self):
+		self.date = timezone.now()
+		self.save()
+
+	def __str__(self):
+		return str(self.studentID) +" : "+ self.text

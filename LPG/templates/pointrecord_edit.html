@@ -6,9 +6,12 @@
 	<h1>新增集點紀錄</h1>
 	{% if messages %}
 	{% for message in messages%}
-	<div class="alert {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}alert-danger{% endif %} {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}alert-success{% endif %}" role="alert">
-	  {{ message }}
-	</div>
+	<script type="text/javascript">
+		
+		alert("{{ message }}");
+	</script>
+	  
+	
 
 	
 	{% endfor %}
@@ -16,11 +19,6 @@
 	<form method="POST" class="pointrecord-form form-group" enctype="multipart/form-data">
 		{% csrf_token %}
 		{{ form.as_p }}
-		<label for="choice_num">類別:</label>
-		<select name="choice_num" id="choice_num" class="form-control" onchange="choice_num_change()">
-		  <option value="2">活動推薦書</option>
-		  <option value="4">其他書</option>
-		</select>
 		<button type="submit" class="save btn btn-info" style="margin-top: 50px">新增</button>
 	</form>
 	<div>
