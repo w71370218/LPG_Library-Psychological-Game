@@ -13,10 +13,43 @@
 	var jsonContent = {
 	  'member': [
 	  {% for pointrecord in pointrecord_list %}
-	  {
-	    'name': '{{ pointrecord.studentID }}',
-	    'ISBN': '{{ pointrecord.ISBN }}'
-	  },
+	  	{% if pointrecord.typeof == 1 %}
+		  {
+		    'name': '{{ pointrecord.studentID }}',
+		    'ISBN': '{{ pointrecord.ISBN }}'
+		  },
+		  {
+		    'name': '{{ pointrecord.studentID }}',
+		    'ISBN': '{{ pointrecord.ISBN }}'
+		  },
+		{% elif pointrecord.typeof == 2 %}
+		  {
+		    'name': '{{ pointrecord.studentID }}',
+		    'ISBN': '{{ pointrecord.ISBN }}'
+		  },
+		{% else %}
+		{
+		    'name': '{{ pointrecord.studentID }}',
+		    'ISBN': '{{ pointrecord.ISBN }}'
+		},
+		{
+		    'name': '{{ pointrecord.studentID }}',
+		    'ISBN': '{{ pointrecord.ISBN }}'
+		},
+		{
+		    'name': '{{ pointrecord.studentID }}',
+		    'ISBN': '{{ pointrecord.ISBN }}'
+		},
+		{
+		    'name': '{{ pointrecord.studentID }}',
+		    'ISBN': '{{ pointrecord.ISBN }}'
+		},
+		{
+		    'name': '{{ pointrecord.studentID }}',
+		    'ISBN': '{{ pointrecord.ISBN }}'
+		},
+
+		{% endif %}
 	  {% endfor %}
 	   ]
 	};

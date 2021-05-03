@@ -1,0 +1,28 @@
+<head>
+    {% block title %}
+        <title>推薦書 | 書圖同歸</title>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+        {% if messages %}
+    {% for message in messages%}
+    <script type="text/javascript">
+        
+        alert("{{ message }}");
+        window.location.href = "/app";
+    </script>
+    {% endfor %}
+    {% endif %}
+    <h3>推薦書給我們</h3>
+	    <form method="POST" class="recommend-form form-group" enctype="multipart/form-data">
+			{% csrf_token %}
+            {% for field in form %}
+            {{ field.label_tag }}
+            {{ field }}
+            <br>
+            {% endfor %}
+			<button type="submit" class="save btn btn-info" style="margin-top: 50px">送出</button>
+		</form>
+    {% endblock %}
+</body>

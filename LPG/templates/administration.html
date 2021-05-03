@@ -13,34 +13,53 @@
           <div class="card border-info mb-3" style="max-width: 18rem;">
             <div class="card-body text-info">
               <h1 class="card-title ">{{ book_num }}</h1>
-              <a class="card-text text-info" href="#">管理書單</a>
+              <a class="card-text text-info" href="{% url 'booklist' %}">管理書單</a><br>
+              <a class="card-text text-info" href="{% url 'single_new_book' %}">新增書目</a>
               <p class="card-text"></p>
             </div>
-            <a href="#">
+            <a href="{% url 'booklist' %}">
               <div class="card-footer bg-info text-white">書單</div>
             </a>
           </div>
           <div class="card border-info mb-3" style="max-width: 18rem;">
             <div class="card-body text-white" style="background-color: #86E4F7">
               <h1 class="card-title">{{ pointrecord_num }}</h1>
-              <a class="card-text text-white" href="#">管理紀錄</a><br>
-              <a class="card-text text-white" href="#">新增紀錄</a>
+              <a class="card-text text-white" href="{% url 'pointrecord_list' %}">管理紀錄</a><br>
+              <a class="card-text text-white" href="{% url 'pointrecord_new' %}">新增紀錄</a>
               <p class="card-text"></p>
             </div>
-            <a href="#">
+            <a href="{% url 'pointrecord_list' %}">
               <div class="card-footer bg-white text-info">集點紀錄</div>
             </a>
           </div>
           <div class="card border-info mb-3" style="max-width: 18rem;">
             <div class="card-body text-info">
               <h1 class="card-title ">{{ question_num }}</h1>
-              <a class="card-text text-info" href="#">管理題目</a>
+              <a class="card-text text-info" href="{% url 'testlist' %}">管理題目</a><br>
+              <a class="card-text text-info" href="{% url 'single_new_test' %}">新增題目</a>
             </div>
-            <a href="#" >
+            <a href="{% url 'testlist' %}" >
               <div class="card-footer bg-info text-white" >測驗題目</div>
             </a>
           </div>
+          <div class="card border-info mb-3" style="max-width: 18rem;">
+            <div class="card-body text-white" style="background-color: #86E4F7">
+              <h1 class="card-title">{{ recommend_num }}</h1>
+              <a class="card-text text-white" href="{% url 'recommend_list' %}">管理紀錄</a><br>
+              <p class="card-text"></p>
+            </div>
+            <a href="{% url 'recommend_list' %}">
+              <div class="card-footer bg-white text-info">讀者推薦書</div>
+            </a>
+          </div>
         </div>
+        <h3>集點前三名</h3>
+        <p>第一名 {{ pointrecord_1st }}</p>
+        
+        <p>第二名 {{ pointrecord_2nd }}</p>
+        
+        <p>第三名 {{ pointrecord_3nd }}</p>
+        
     </div>
     {% else %}
     {% endif %}

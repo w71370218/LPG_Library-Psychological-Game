@@ -1,3 +1,10 @@
+const metas = document.getElementsByTagName('meta');
+ for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('property') === "og:url") {
+        metas[i].setAttribute('content', window.location.href);
+    }
+}
+
 function getRandom(min,max){
     return Math.floor(Math.random()*(max-min+1))+min;
 };
@@ -29,10 +36,6 @@ function start() {
 function submit() {
     var result;
     var i = getScore();
-    console.log(i[0]);
-    console.log(i[1]);
-    console.log(i[2]);
-    console.log(i[3]);
     if (i.nthIndexOf(Math.max(...i),2) === -1){
         result = i.indexOf(Math.max(...i))+1
     } else {
@@ -44,9 +47,7 @@ function submit() {
             result = (i.nthIndexOf(Math.max(...i),2))+1;
         }
     }
-    console.log(result);
     const csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
-    console.log(csrfmiddlewaretoken);
 
     document.getElementById("test_page").innerHTML = "";
     document.getElementById("result_page").style.visibility = "visible";
@@ -68,8 +69,8 @@ function submit() {
             console.log(json);
             json = JSON.parse(json)
             console.log(typeof json);
-            
-            for (var i = 0; i < json.length; i++) {
+
+            if (json.length == 1){
                 var newDiv = document.createElement("div");
                 newDiv.class = "book";
                 newDiv.id = (i+1).toString();
@@ -105,19 +106,17 @@ function submit() {
                 document.getElementById((i+1).toString()).appendChild(fb_share_button)
                 
                 
-            };
-            (function(d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) return;
-                    js = d.createElement(s); js.id = id;
-                    js.src = "https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v3.0";
-                    fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));
 
+                recommend_button.innerHTML = "推薦書給我們";
+
+                recommend_button.setAttribute('onclick', 'window.open(window.location.href.replace("app/","recommend/'+result.toString() +'","_blank"))');
+                document.getElementById("result_page").appendChild(recommend_button);
+                }
+                
         },
         error: function(xhr,errmsg,err){
             console.log("Could not send URL to Django. Error: " + xhr.status + ": " + xhr.responseText);
-            console.log('error', error);
+            console.log('error', err);
         }
     })
 };
@@ -165,6 +164,5 @@ function HiddenDiv() {
     if (document.readyState == "complete") {
         var loadingMask = document.getElementById('loadingDiv');
         loadingMask.parentNode.removeChild(loadingMask);
-        document.getElementById("resultDiv").style.visibility = "visible";
     }
 }

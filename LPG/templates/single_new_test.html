@@ -4,16 +4,93 @@
 	{% block title %}
 	<title>單筆新增題目 | Admin</title>
 	{% endblock %}
-	<script type="text/javascript">
+{% block extra_head_content %}
+<script type="text/javascript">
+	function choice_num_change(){
 		const choice_num = 2;
 
-		if ($("#choice_num").val() === 2){
-
+		if ($("#choice_num").val() === "2"){
+			for (var i = 3; i <= 4; i++) {
+				$('.choice_text'+i).remove();
+			}
 		} else {
-			
-		}
+			for (var i = 3; i <= 4; i++) {
+				var tr = document.createElement("tr");
+				tr.className = "choice_text"+i;
 
-	</script>
+				var th =  document.createElement("th");
+				th.setAttribute('scope', 'row');
+
+				var label = document.createElement("label");
+				label.setAttribute('for', 'choice_text'+i);
+				label.innerHTML = "選項"+i;
+
+				th.appendChild(label);
+				tr.appendChild(th);
+
+				var textarea =  document.createElement("textarea");
+				textarea.setAttribute('type', 'text');
+				textarea.id = "choice_text"+i;
+				textarea.setAttribute('name',  'choice_text'+i);
+				textarea.className = "form-control";
+				textarea.required = true;
+
+				var td =  document.createElement("td");
+
+				td.appendChild(textarea);
+				tr.appendChild(td);
+
+				var input =  document.createElement("input");
+				input.setAttribute('type', 'text');
+				input.id = "type"+i;
+				input.setAttribute('name', 'type'+i);
+				input.className = "form-control";
+				input.required = true;
+
+				var td2 =  document.createElement("td");
+
+				td2.appendChild(input);
+				tr.appendChild(td2);
+				
+				document.getElementsByClassName("choice")[0].appendChild(tr);
+
+			}
+		}
+	}
+
+	$(document).on( "click" ,"#submit", function() {
+		const form = {};
+		var question = $('textarea#question').val();
+		form["question"] = question;
+		for (var i = document.getElementsByTagName("tr").length-2 ; i >= 1; i--) {
+			var choice_text = $('textarea#choice_text'+i).val();
+			var choice_type = $('input#type'+i).val();
+			form["choice_text"+i] = choice_text;
+			form["choice_type"+i] = choice_type;
+		};
+
+		const url = window.location.href.replace("single_new_test/","proccess_single_test/");
+		const csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
+		$.ajax({
+	        type: 'POST',
+	        url: url,
+	        dataType: "json",
+	        data: {
+	            'csrfmiddlewaretoken': csrfmiddlewaretoken,
+	            'form': form
+	            },
+	        success: function(json) {
+				alert(json['message']);
+
+	        },
+	        error: function(xhr,errmsg,err){
+	            alert("Could not send URL to Django. Error: " + xhr.status + ": " + xhr.responseText);
+	            alert('error', err);
+	        }
+	    })
+	})
+</script>
+{% endblock %}
 </head>
 
 <body>
@@ -38,7 +115,7 @@
 	</div>
 	<div>
 		<label for="choice_num">選項個數:</label>
-		<select name="choice_num" id="choice_num" class="form-control">
+		<select name="choice_num" id="choice_num" class="form-control" onchange="choice_num_change()">
 		  <option value="2">2個</option>
 		  <option value="4">4個</option>
 		</select>
@@ -61,7 +138,7 @@
 				      <th scope="col"> </th>
 				    </tr>
 				</thead>
-				<tbody>
+				<tbody class="choice">
 			  	<tr class="choice_text1">
 			  		<th scope="row"><label for="choice_text1">選項1</label></th>
 			  		<td><textarea type="text" id="choice_text1" name="choice_text1" class="form-control" required></textarea></td>
@@ -75,7 +152,7 @@
 			  </tbody>
 			</table>
 		</div>
-		<button type="submit" class="save btn btn-info">新增</button>
+		<button type="submit" class="save btn btn-info" id="submit">新增</button>
 	</form>
 	{% endblock %}
 </body>
