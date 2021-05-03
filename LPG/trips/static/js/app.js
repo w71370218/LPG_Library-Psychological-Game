@@ -50,7 +50,7 @@ function submit() {
     const csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
 
     document.getElementById("test_page").style.display = "none";
-    document.getElementById("result_page").style.display = "grid";
+    document.getElementById("result_page").style.display = "block";
 
     const url = window.location.href.replace("app/","process_result_from_client/")
     $.ajax({

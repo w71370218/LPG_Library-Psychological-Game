@@ -21,7 +21,6 @@ body{
 #start_page{
 	display: grid;
     place-items: center;
-	visibility: visible;
 }
 
 #test_page{
@@ -32,21 +31,21 @@ body{
 	display: none;
 }
 
-#resultDiv{
+/* #resultDiv{
 	display: flex;
     justify-content: center;
 	flex-direction: column;
-}
+} */
 
 .bookDiv{
-	display: flex;
-	flex-direction: row;
+	display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
-/* div{
+div{
 	padding-left: 15px;
 	padding-right: 15px;
 	margin-bottom: 3%;
-} */
+}
 .footer{
 	color: rgba(255,255,255,.3);
 	height: 50px;
