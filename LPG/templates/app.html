@@ -21,12 +21,6 @@
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <!-- Load Facebook SDK for JavaScript -->
-    <div id="fb-root"></div>
-    <script>
-        
-    </script>
-
     <script type="text/javascript">
         function next() {
             if (document.getElementsByClassName("quiestion")[test_index].hidden == false) {
@@ -47,42 +41,9 @@
     </script>
     <script src="{% static 'js/app.js' %}"></script>
 </head>
-<style>
-    body{
-        background-color: #FDF6F6;
-    }
-    .container{
-        color: #1B2156;
-        background-color: #FEDFDF;
-        text-align: center;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-    }
 
-
-    #resultDiv{
-        display: flex;
-        justify-content: center;
-    }
-    footer{
-        padding: 25px 0;
-        text-align: center;
-        color: rgba(255,255,255,.3);
-        background-color: #222;
-    }
-</style>
 <body>
 <div class="container">
-    <div id="start_page">
-        <h1>書圖同歸</h1>
-        <h3>在茫茫書海中，找到屬於你的書。</h3>
-        <div class="description">
-            <p>想要探索自己有興趣的書籍嗎？圖書館設計了一款線上答題趣味遊戲，越積極參與就越有機會獲得精美小禮物喔！</p>
-        </div>
-        <button onclick="start()">開始</button>
-    </div>
-        
     <div id="test_page">
     {% for test in test_list %}
         {% if forloop.counter == 1 %}
@@ -124,14 +85,20 @@
         </div>
     {% endfor %}
     </div>
+    <div id="start_page">
+        <h1>書圖同歸</h1>
+        <h3>在茫茫書海中，找到屬於你的書。</h3>
+        <div class="description">
+            <p>想要探索自己有興趣的書籍嗎？圖書館設計了一款線上答題趣味遊戲，越積極參與就越有機會獲得精美小禮物喔！</p>
+        </div>
+        <button onclick="start()">開始</button>
+    </div>
     <div id="result_page">
         <div id="loadingDiv"><p>結果載入中...</p><img src="{% static 'img/loading.gif' %}"></div>
         <h3>我們覺得你適合看這些書...</h3>
-        <div id="resultDiv">
-            
-        </div>
+        <div id="resultDiv"></div>
     </div>
 </div>
-<footer><p>&copy; 統神端湯上塔 2020. All Rights Reserved.</p></footer>
+<footer class="footer"><p>&copy; 統神端湯上塔 2020. All Rights Reserved.</p></footer>
 </body>
 </html>
