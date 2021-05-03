@@ -94,7 +94,7 @@ function submit() {
                     keyDiv.appendChild(key);
                     newDiv.appendChild(keyDiv);
                 };
-                document.getElementById("result_page").appendChild(newDiv);
+                document.getElementById("resultDiv").appendChild(newDiv);
                 fb_share_button = document.createElement("div");
                 fb_share_button.className = "fb-share-button";
                 //fb_share_button.id = ;

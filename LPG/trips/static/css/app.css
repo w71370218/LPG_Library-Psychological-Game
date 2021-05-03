@@ -3,15 +3,15 @@
 }
 
 #test_page{
-	visibility: hidden;
+	visibility: collapse;
 }
 
 #result_page{
-	visibility: hidden;
+	visibility: collapse;
 }
 
 #resultDiv{
-	visibility: hidden;
+	visibility: collapse;
 }
 
 .picturename {
