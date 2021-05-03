@@ -8,12 +8,16 @@
     <meta name="keywords" content="輔大圖書館,圖書館,心理測驗,書圖同歸,測驗,趣味測驗,輔大,圖書館推廣活動">
     <meta name="description" content="在茫茫書海中，找到屬於你的書。">
     <!-- Open Graph Protocol -->
+    <meta property="og:url" content="{{ request.path }}" />
     <meta property="og:type" content="website" /> 
     <meta property="og:title" content="書圖同歸：在茫茫書海中，找到屬於你的書。" />
     <meta property="og:description" content="在茫茫書海中，找到屬於你的書。" />
     <meta property="og:locate" content="zh_tw" />
-    <meta property="og:image" content="https://i.imgur.com/dCTfONT.jpg" />
+    <meta property="og:image" content="{{ FB_share_Default }}" />
     <!-- CSS -->
+    <link rel="icon" type="image/x-icon" href="{{ logo_icon }}">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
 
     <title>書圖同歸</title>
@@ -80,6 +84,7 @@
         <div class="description">
             <p>想要探索自己有興趣的書籍嗎？圖書館設計了一款線上答題趣味遊戲，越積極參與就越有機會獲得精美小禮物喔！</p>
         </div>
+
         <button onclick="start()">開始</button>
     </div>
         
@@ -91,16 +96,17 @@
         <div  id="{{ forloop.counter }}" class="quiestion"  hidden>
         {% endif %}
         <div>
-            <h4>目前題數 : {{ forloop.counter }} / {{ test_num }}</h4>
+            目前題數 : {{ forloop.counter }} / {{ test_num }}
         </div>
-        <h3>{{ test.id }}</h3>
+        {{ forloop.counter }}
         {{ test.question }}
         {% for choice in choice_list %}
                 {% if test.id == choice.question_id %}
-                    <div>
+                    <div >
                     {% for typeof in type_list %}
                         {% if choice.id == typeof.choice_id %}
                         
+
                         <input type="radio" id="test" name="{{ test.id }}" value="{{ typeof.text }}" >
                         <label for="{{ test.id }}">{{ choice.choice_number }}.{{ choice.text }}</label><br>
                     
@@ -109,15 +115,13 @@
                     {% endfor %}
                     </div>
                 {% endif %}
-            {% endfor %}
+        {% endfor %}
         {% if forloop.counter == test_num %}
-                <!--<form id="" method="POST" class="process_result_from_client">-->
                 {% csrf_token %}
                 <input type="hidden" name="score" value="0">
                 <button id="end" onclick="submit()" type="submit" class="btn btn-default btn-sm btn-outline-secondary">
                     送出
                 </button>
-                <!--</form>-->
         {% else %}
             <button id="next" onclick="next()">下一題</button>
         {% endif %}
@@ -125,13 +129,10 @@
     {% endfor %}
     </div>
     <div id="result_page">
-        <div id="loadingDiv"><p>結果載入中...</p><img src="{% static 'img/loading.gif' %}"></div>
-        <h3>我們覺得你適合看這些書...</h3>
-        <div id="resultDiv">
-            
-        </div>
+        <div id="loadingDiv"><p>結果載入中...</p><img src="{% static 'img/loading.gif' %}"></div></div>
+        
     </div>
 </div>
-<footer><p>&copy; 統神端湯上塔 2020. All Rights Reserved.</p></footer>
+    <footer>統神端湯上塔 Copyright © Asiagodtone brings the soup to the tower.</footer>
 </body>
 </html>
