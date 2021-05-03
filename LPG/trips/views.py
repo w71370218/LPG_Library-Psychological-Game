@@ -58,17 +58,30 @@ def administration(request):
 	book_num = Booklist.objects.all().count()
 	pointrecord_num = PointRecord.objects.all().count()
 	recommend_num = Recommend.objects.all().count()
-	pointrecord_count = PointRecord.objects.values('studentID').annotate(count=Count('studentID'))
+	pointrecord_c = PointRecord.objects.values('studentID','typeof')
+	pointrecord_count = {}
+
+	for i in pointrecord_c:
+		if pointrecord_count.get("i[studentID]") == None:
+			pointrecord_count[i['studentID']] = 0
+		if i['typeof'] == 1:
+			pointrecord_count[i['studentID']] += 2
+		elif i['typeof'] == 2:
+			pointrecord_count[i['studentID']] += 1
+		else:
+			pointrecord_count[i['studentID']] += 5
+
+	rank = sorted(pointrecord_count.items(), key =lambda x : x[1],reverse=True)
 	try:
-		pointrecord_1st = pointrecord_count.order_by('-count')[0]['studentID']
+		pointrecord_1st = rank[0][0]
 	except:
 		pointrecord_1st = '從缺'
 	try:
-		pointrecord_2nd = pointrecord_count.order_by('-count')[1]['studentID']
+		pointrecord_2nd = rank[1][0]
 	except:
 		pointrecord_2nd = '從缺'
 	try:	
-		pointrecord_3nd = pointrecord_count.order_by('-count')[2]['studentID']
+		pointrecord_3nd = rank[2][0]
 	except:
 		 pointrecord_3nd = '從缺'
 	return render(request, 'administration.html', {'question_num': question_num, 'book_num':book_num, 'pointrecord_num':pointrecord_num, 'recommend_num':recommend_num,'pointrecord_1st':pointrecord_1st,'pointrecord_2nd':pointrecord_2nd,'pointrecord_3nd':pointrecord_3nd})
@@ -367,7 +380,6 @@ def upload_test_file(request):
 					i_test = test_list.filter(question=i[0])
 					i_choice = Choice.objects.create(question=i_test[0], choice_number=i[1], text=i[2])
 					Type.objects.create(choice=i_choice,text=i[3])
-				messages.info(request, '上傳成功!')
 				return HttpResponseRedirect('/testlist/')
 			except:
 				messages.error(request, '檔案資料不正確或內部錯誤!')
