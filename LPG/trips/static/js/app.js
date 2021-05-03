@@ -29,8 +29,8 @@ function addElement (newContent) {
 }
 
 function start() {
-    document.getElementById("start_page").innerHTML = "";
-    document.getElementById("test_page").style.visibility = "visible";
+    document.getElementById("start_page").style.display = "none";
+    document.getElementById("test_page").style.display = "grid";
 };
 
 function submit() {
@@ -49,8 +49,8 @@ function submit() {
     }
     const csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
 
-    document.getElementById("test_page").innerHTML = "";
-    document.getElementById("result_page").style.visibility = "visible";
+    document.getElementById("test_page").style.display = "none";
+    document.getElementById("result_page").style.display = "grid";
 
     const url = window.location.href.replace("app/","process_result_from_client/")
     $.ajax({
@@ -90,10 +90,14 @@ function submit() {
                 resultDiv.appendChild(h32);
                 document.getElementById("result_page").appendChild(resultDiv);
 
+                var bookDiv = document.createElement("div");
+                bookDiv.className = "bookDiv";
+                document.getElementById("result_page").appendChild(bookDiv);
+
                 for (var i = 0; i < json.length; i++) {          
                     var newDiv = document.createElement("div");
-                    newDiv.class = "book";
                     newDiv.id = (i+1).toString();
+                    newDiv.className = ""
                     for (var j = 0; j < (Object.values(json[i].fields).length)-3; j++){
                         fields = json[i].fields;
                         var keyDiv = document.createElement("div");
@@ -110,7 +114,7 @@ function submit() {
                         keyDiv.appendChild(key);
                         newDiv.appendChild(keyDiv);
                     };
-                    document.getElementById("result_page").appendChild(newDiv);
+                    bookDiv.appendChild(newDiv);
 
                     share_url = window.location.href.replace("app/","process_result_from_client/");
                     fb_share_button = document.createElement("div");
