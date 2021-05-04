@@ -48,7 +48,7 @@ def game(request):
 	return render(request, 'game.html',{'FB_share_Default':FB_share_Default,'logo_icon':logo_icon,})
 
 def app(request):
-	test_num = 3
+	test_num = 10
 	test_list = Test.objects.all().order_by('?')[:test_num]
 	choice_list = Choice.objects.all()
 	type_list = Type.objects.all()
