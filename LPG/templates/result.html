@@ -12,22 +12,22 @@
 			</a>
 		</div>
 		<div class="title">
-			<span>{{ book.0.title }}</span>
+			<span>書名：{{ book.0.title }}</span>
 		</div>
 		<div class="author">
-			<span>{{ book.0.author }}</span>
+			<span>作者：{{ book.0.author }}</span>
 		</div>
 		<div class="publisher">
-			<span>{{ book.0.publisher }}</span>
+			<span>出版者：{{ book.0.publisher }}</span>
 		</div>
 		<div class="callnumber">
-			<span>{{ book.0.callnumber }}</span>
+			<span>分類號：{{ book.0.callnumber }}</span>
 		</div>
 		<div class="location">
-			<span>{{ book.0.location }}</span>
+			<span>館藏地：{{ book.0.location }}</span>
 		</div>
 		<div class="ISBN">
-			<span>{{ book.0.ISBN }}</span>
+			<span>ISBN：{{ book.0.ISBN }}</span>
 		</div>
 		
 	</div>
@@ -53,7 +53,7 @@
 	{% endfor %}
 </div>
 <div class="button-group">
-	<button onclick="again()">再玩一次</button>
-	<button onclick="back_game()">回活動頁面</button>
-	<button onclick="black_open()">推薦書給我們</button>
+	<button onclick="again()" class="btn btn-outline-dark">再玩一次</button>
+	<button onclick="black_open()" class="btn btn-outline-light">推薦書給我們</button>
+	<button onclick="back_game()" class="btn btn-outline-dark">回活動頁面</button>
 </div>
