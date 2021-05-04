@@ -267,6 +267,7 @@ def process_result_from_client(request):
 	library_url = "https://library.lib.fju.edu.tw:444/search*cht/?searchtype=i&searcharg="
 	exclude_id_list = set()
 	result_book_id = set()
+	opac_url = {}
 	while len(exclude_id_list) != len(book_list) and len(result_book_id)<3:
 		temp_book_list = book_list.exclude(id__in=exclude_id_list).order_by('?')[:(3-len(result_book_id))]
 		for book in temp_book_list:
@@ -282,11 +283,13 @@ def process_result_from_client(request):
 						if '可外借' in i.text:
 							available_bool = 1
 							result_book_id.add(book.id)
+							opac_url[book.id]=book_library_url
 							break
 				else:
 					if '可外借' in find_soup[0].text:
 						available_bool = 1
 						result_book_id.add(book.id)
+						opac_url[book.id]=book_library_url
 						break
 				if available_bool == 0:
 					exclude_id_list.add(book.id)
@@ -302,11 +305,13 @@ def process_result_from_client(request):
 						if '可外借' in i.text:
 							available_bool = 1
 							result_book_id.add(book.id)
+							opac_url[book.id]=book_library_url
 							break
 				else:
 					if '可外借' in find_soup[0].text:
 						available_bool = 1
 						result_book_id.add(book.id)
+						opac_url[book.id]=book_library_url
 						break
 				if available_bool == 0:
 					exclude_id_list.add(book.id)
@@ -385,13 +390,21 @@ def process_result_from_client(request):
 		result_book_list[c].picturename = result_book_list[c].picturename.url
 		c += 1
 # return data
+	opac_url_list = []
+	for book in result_book_list:
+		for k in opac_url.keys():
+			if book.id == k:
+				opac_url_list.append(opac_url[k])
+
+	print(result_book_list,opac_url_list)
+	result_list = zip(result_book_list,opac_url_list)
 	if len(result_book_list) == 0:
 		result_book_list = book_list.order_by('?')[:3]
 		messages = ['對不起 本類的書太熱門了 目前在圖書館中已經借完了']
-		return render(request, 'result.html', {'result_book_list': result_book_list, 'messages':messages, 'result':result })
+		return render(request, 'result.html', {'result_list': result_list, 'messages':messages, 'result':result })
 	else:
-		messages = ['記得將結果截圖','借書時把結果給館員看','我們覺得你適合看這些書...']
-		return render(request, 'result.html', {'result_book_list': result_book_list, 'messages':messages, 'result':result })
+		messages = ['請記得將結果截圖並在借書時出示給館員看喔!','我們覺得你適合看這些書...']
+		return render(request, 'result.html', {'result_list': result_list, 'messages':messages, 'result':result })
 #old return data
 	#serialized_book_list = serialize('json', result_book_list)
 	#if len(result_book_list) == 0:

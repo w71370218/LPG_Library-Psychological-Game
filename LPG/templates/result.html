@@ -4,28 +4,30 @@
 	{% endfor %}
 </div>
 <div class="bookDiv">
-	{% for book in result_book_list %}
-	<div id="{{ book.id }}">
+	{% for book in result_list %}
+	<div id="{{ book.0.id }}">
 		<div class="picturename">
-			<img src="{{ book.picturename }}" class="picture">
+			<a href="{{ book.1 }}" target="_blank">
+				<img src="{{ book.0.picturename }}" class="picture">
+			</a>
 		</div>
 		<div class="title">
-			<span>{{ book.title }}</span>
+			<span>{{ book.0.title }}</span>
 		</div>
 		<div class="author">
-			<span>{{ book.author }}</span>
+			<span>{{ book.0.author }}</span>
 		</div>
 		<div class="publisher">
-			<span>{{ book.publisher }}</span>
+			<span>{{ book.0.publisher }}</span>
 		</div>
 		<div class="callnumber">
-			<span>{{ book.callnumber }}</span>
+			<span>{{ book.0.callnumber }}</span>
 		</div>
 		<div class="location">
-			<span>{{ book.location }}</span>
+			<span>{{ book.0.location }}</span>
 		</div>
 		<div class="ISBN">
-			<span>{{ book.ISBN }}</span>
+			<span>{{ book.0.ISBN }}</span>
 		</div>
 		
 	</div>
@@ -44,8 +46,8 @@
 	    now_url = window.location.href;
 	    fb_share_button.setAttribute('size', 'large');
 	    fb_share_button.setAttribute("data-layout", "button");
-	    fb_share_button.setAttribute("data-href", window.location.href.replace("app/","share_book/{{ book.id }}/og/"));
-	    document.getElementById("{{ book.id }}").appendChild(fb_share_button);
+	    fb_share_button.setAttribute("data-href", window.location.href.replace("app/","share_book/{{ book.0.id }}/og/"));
+	    document.getElementById("{{ book.0.id }}").appendChild(fb_share_button);
 		
 	</script>
 	{% endfor %}
