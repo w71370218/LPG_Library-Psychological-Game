@@ -75,6 +75,7 @@ function submit() {
                         fjs.parentNode.insertBefore(js, fjs);
                     }(document, 'script', 'facebook-jssdk'));
 
+                
         },
         error: function(xhr,errmsg,err){
             console.log("Could not send URL to Django. Error: " + xhr.status + ": " + xhr.responseText);

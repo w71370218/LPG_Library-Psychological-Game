@@ -27,8 +27,8 @@
 		<div class="ISBN">
 			<span>{{ book.ISBN }}</span>
 		</div>
-		
-		<div class="fb-share-button" size="large" data-layout="button" data-href="data_href()"></div>
+		<div class="fb-share-button" size="large" data-layout="button" ></div>
+		<script type="text/javascript">document.getelementsByClassName('fb-share-button').setAttribute("data-href", window.location.href.replace("app/","share_book/{{ book.id }}/og/"));</script>
 	</div>
 	{% endfor %}
 </div>
@@ -47,7 +47,5 @@
 	function back_game(){
 		location = window.location.href.replace("app/","game/");
 	}
-	function data_href(){
-		window.location.href.replace("app/","share_book/{{ book.id }}/og/")
-	}
+	
 </script>
