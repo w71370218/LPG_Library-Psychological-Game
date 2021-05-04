@@ -57,7 +57,7 @@
             <p>想要探索自己有興趣的書籍嗎？圖書館設計了一款線上答題趣味遊戲，越積極參與就越有機會獲得精美小禮物喔！</p>
         </div>
 
-        <button type="button" class="btn btn-outline-light" onclick="start()">開始</button>
+        <button type="button" class="btn btn-outline-dark" onclick="start()">開始</button>
     </div>
         
     <div id="test_page">
@@ -92,11 +92,11 @@
                 {% csrf_token %}
                 <input type="hidden" name="score" value="0">
                 
-                <button id="end" onclick="submit()" type="submit" class="btn btn-outline-light">
+                <button id="end" onclick="submit()" type="submit" class="btn btn-outline-dark">
                     送出
                 </button>
         {% else %}
-            <button id="next"  type="button" class="btn btn-outline-light" onclick="next()">下一題</button>
+            <button id="next"  type="button" class="btn btn-outline-dark" onclick="next()">下一題</button>
         {% endif %}
         </div>
     {% endfor %}
