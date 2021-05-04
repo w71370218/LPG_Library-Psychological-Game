@@ -123,7 +123,7 @@ function submit() {
                     fb_share_button.setAttribute('size', 'large');
                     fb_share_button.setAttribute("data-layout", "button");
                     fb_share_button.setAttribute("data-href", window.location.href.replace("app/","share_book/"+json[i].pk+"/og/"));
-                    document.getElementById((i+1).toString()).appendChild(fb_share_button)
+                    newDiv.appendChild(fb_share_button)
                     
                     
                 };
@@ -142,6 +142,7 @@ function submit() {
                 recommend_button.innerHTML = "推薦書給我們";
 
                 recommend_button.setAttribute('onclick', 'window.open(window.location.href.replace("app/","recommend/'+result.toString() +'","_blank"))');
+                recommend_button.setAttribute('class', "btn btn-outline-dark")
                 document.getElementById("result_page").appendChild(recommend_button);
                 }
                 
