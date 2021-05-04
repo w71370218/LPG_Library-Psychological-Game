@@ -270,24 +270,48 @@ def process_result_from_client(request):
 	while len(exclude_id_list) != len(book_list) and len(result_book_id)<3:
 		temp_book_list = book_list.exclude(id__in=exclude_id_list).order_by('?')[:(3-len(result_book_id))]
 		for book in temp_book_list:
-			book_library_url = "https://library.lib.fju.edu.tw:444/search*cht/?searchtype=Y&searcharg="+ str(book.callnumber)
-			res_text = requests.get(book_library_url).text
-			soup = BeautifulSoup(res_text , 'html.parser')
-			find_soup = soup.find_all('td',width="16%")
-			available_bool = 0
-			if len(find_soup) > 1:
-				for i in find_soup:
-					if '可外借' in i.text:
+			try:
+				book_library_url = "https://library.lib.fju.edu.tw:444/search*cht/?searchtype=Y&searcharg="+ str(book.callnumber)
+				res_text = requests.get(book_library_url).text
+				soup = BeautifulSoup(res_text , 'html.parser')
+				find_soup = soup.find_all('td',width="16%")
+				available_bool = 0
+				print(book.callnumber)
+				if len(find_soup) > 1:
+					for i in find_soup:
+						if '可外借' in i.text:
+							available_bool = 1
+							result_book_id.add(book.id)
+							break
+				else:
+					if '可外借' in find_soup[0].text:
 						available_bool = 1
 						result_book_id.add(book.id)
 						break
+				if available_bool == 0:
+					exclude_id_list.add(book.id)
+			except:
+				book_library_url = "https://library.lib.fju.edu.tw:444/search*cht/?searchtype=i&searcharg="+ str(book.ISBN)
+				res_text = requests.get(book_library_url).text
+				soup = BeautifulSoup(res_text , 'html.parser')
+				find_soup = soup.find_all('td',width="16%")
+				available_bool = 0
+				print(book.callnumber)
+				if len(find_soup) > 1:
+					for i in find_soup:
+						if '可外借' in i.text:
+							available_bool = 1
+							result_book_id.add(book.id)
+							break
+				else:
+					if '可外借' in find_soup[0].text:
+						available_bool = 1
+						result_book_id.add(book.id)
+						break
+				if available_bool == 0:
+					exclude_id_list.add(book.id)
 			else:
-				if '可外借' in find_soup[0].text:
-					available_bool = 1
-					result_book_id.add(book.id)
-					break
-			if available_bool == 0:
-				exclude_id_list.add(book.id)
+				pass
 
 	result_book_list = book_list.filter(id__in=result_book_id)
 #old code : because in heroku using this code will be get error that "WORKER TIME OUT", but new code maybe have same bug, in sercurity, keep old code
@@ -360,11 +384,19 @@ def process_result_from_client(request):
 			result_book_list[c].save()
 		result_book_list[c].picturename = result_book_list[c].picturename.url
 		c += 1
-
-	serialized_book_list = serialize('json', result_book_list)
+# return data
 	if len(result_book_list) == 0:
-		serialized_book_list = '[{"message":"對不起 本類的書太熱門了 目前在圖書館中已經借完了"}]'
-	return JsonResponse(serialized_book_list, safe=False, json_dumps_params={'ensure_ascii': False}, content_type="application/json")
+		result_book_list = book_list.order_by('?')[:3]
+		messages = ['對不起 本類的書太熱門了 目前在圖書館中已經借完了']
+		return render(request, 'result.html', {'result_book_list': result_book_list, 'messages':messages, 'result':result })
+	else:
+		messages = ['記得將結果截圖','借書時把結果給館員看','我們覺得你適合看這些書...']
+		return render(request, 'result.html', {'result_book_list': result_book_list, 'messages':messages, 'result':result })
+#old return data
+	#serialized_book_list = serialize('json', result_book_list)
+	#if len(result_book_list) == 0:
+		#serialized_book_list = '[{"message":"對不起 本類的書太熱門了 目前在圖書館中已經借完了"}]'
+	#return JsonResponse(serialized_book_list, safe=False, json_dumps_params={'ensure_ascii': False}, content_type="application/json")
 
 
 def upload_test_file(request):
@@ -453,7 +485,7 @@ def recommend_new(request,result):
 				pointrecord = PointRecord.objects.create(studentID=recommend.studentID, typeof=3)
 				pointrecord.date = timezone.now()
 				pointrecord.save()
-				messages.success(request, '成功提交!您已經獲得一點!')
+				messages.success(request, '成功提交!您已經獲得五點!')
 
 			else:
 				messages.success(request, '成功提交!')

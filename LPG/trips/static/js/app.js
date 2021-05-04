@@ -59,12 +59,12 @@ function submit() {
         },
         type: 'POST',
         url: url,
-        dataType: "json",
+        dataType: "html",
         data: {
             'csrfmiddlewaretoken': csrfmiddlewaretoken,
             'result': result
             },
-        success: function(json) {
+        success: function(res) {
             console.log("Successfully sent the URL to Django");
             console.log(json);
             json = JSON.parse(json)
@@ -135,6 +135,8 @@ function submit() {
                         js.src = "https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v3.0";
                         fjs.parentNode.insertBefore(js, fjs);
                     }(document, 'script', 'facebook-jssdk'));
+                //var recommend_button = document.createElement("button");
+                //recommend_button.innerHTML = "推薦書給我們";
 
                 const recommend_button = document.createElement("button");
                 

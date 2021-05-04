@@ -1,0 +1,50 @@
+<div id="resultDiv">
+	{% for message in messages %}
+		<h3>{{ message }}</h3>
+	{% endfor %}
+</div>
+<div class="bookDiv">
+	{% for book in result_book_list %}
+	<div id="{{ book.id }}">
+		<div class="title">
+			<span>{{ book.title }}</span>
+		</div>
+		<div class="author">
+			<span>{{ book.author }}</span>
+		</div>
+		<div class="publisher">
+			<span>{{ book.publisher }}</span>
+		</div>
+		<div class="callnumber">
+			<span>{{ book.callnumber }}</span>
+		</div>
+		<div class="location">
+			<span>{{ book.location }}</span>
+		</div>
+		<div class="ISBN">
+			<span>{{ book.ISBN }}</span>
+		</div>
+		<div class="picturename">
+			<img src="{{ book.picturename }}" class="picture">
+		</div>
+		<div class="fb-share-button" size="large" data-layout="button" data-href="window.location.href.replace("app/","share_book/{{ book.id }}/og/")"></div>
+	</div>
+	{% endfor %}
+</div>
+<div class="button-group">
+	<button onclick="again()">再玩一次</button>
+	<button onclick="back_game()">回活動頁面</button>
+	<button onclick="black_open()">推薦書給我們</button>
+</div>
+<script type="text/javascript">
+	function black_open() {
+		window.open(window.location.href.replace("app/","recommend/{{ result }}"),"_blank");
+	}
+	function again() {
+		location.reload();
+	}
+	function back_game(){
+		location = window.location.href.replace("app/","game/");
+	}
+
+</script>
