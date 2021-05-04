@@ -6,6 +6,9 @@
 <div class="bookDiv">
 	{% for book in result_book_list %}
 	<div id="{{ book.id }}">
+		<div class="picturename">
+			<img src="{{ book.picturename }}" class="picture">
+		</div>
 		<div class="title">
 			<span>{{ book.title }}</span>
 		</div>
@@ -24,10 +27,8 @@
 		<div class="ISBN">
 			<span>{{ book.ISBN }}</span>
 		</div>
-		<div class="picturename">
-			<img src="{{ book.picturename }}" class="picture">
-		</div>
-		<div class="fb-share-button" size="large" data-layout="button" data-href="window.location.href.replace("app/","share_book/{{ book.id }}/og/")"></div>
+		
+		<div class="fb-share-button" size="large" data-layout="button" data-href="data_href()"></div>
 	</div>
 	{% endfor %}
 </div>
@@ -46,5 +47,7 @@
 	function back_game(){
 		location = window.location.href.replace("app/","game/");
 	}
-
+	function data_href(){
+		window.location.href.replace("app/","share_book/{{ book.id }}/og/")
+	}
 </script>
