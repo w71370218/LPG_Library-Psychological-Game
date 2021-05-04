@@ -312,7 +312,6 @@ def process_result_from_client(request):
 					exclude_id_list.add(book.id)
 			else:
 				pass
-			
 
 	result_book_list = book_list.filter(id__in=result_book_id)
 #old code : because in heroku using this code will be get error that "WORKER TIME OUT", but new code maybe have same bug, in sercurity, keep old code
@@ -385,11 +384,19 @@ def process_result_from_client(request):
 			result_book_list[c].save()
 		result_book_list[c].picturename = result_book_list[c].picturename.url
 		c += 1
-
-	serialized_book_list = serialize('json', result_book_list)
+# return data
 	if len(result_book_list) == 0:
-		serialized_book_list = '[{"message":"對不起 本類的書太熱門了 目前在圖書館中已經借完了"}]'
-	return JsonResponse(serialized_book_list, safe=False, json_dumps_params={'ensure_ascii': False}, content_type="application/json")
+		result_book_list = book_list.order_by('?')[:3]
+		messages = ['對不起 本類的書太熱門了 目前在圖書館中已經借完了']
+		return render(request, 'result.html', {'result_book_list': result_book_list, 'messages':messages, 'result':result })
+	else:
+		messages = ['記得將結果截圖','借書時把結果給館員看','我們覺得你適合看這些書...']
+		return render(request, 'result.html', {'result_book_list': result_book_list, 'messages':messages, 'result':result })
+#old return data
+	#serialized_book_list = serialize('json', result_book_list)
+	#if len(result_book_list) == 0:
+		#serialized_book_list = '[{"message":"對不起 本類的書太熱門了 目前在圖書館中已經借完了"}]'
+	#return JsonResponse(serialized_book_list, safe=False, json_dumps_params={'ensure_ascii': False}, content_type="application/json")
 
 
 def upload_test_file(request):
@@ -478,7 +485,7 @@ def recommend_new(request,result):
 				pointrecord = PointRecord.objects.create(studentID=recommend.studentID, typeof=3)
 				pointrecord.date = timezone.now()
 				pointrecord.save()
-				messages.success(request, '成功提交!您已經獲得一點!')
+				messages.success(request, '成功提交!您已經獲得五點!')
 
 			else:
 				messages.success(request, '成功提交!')
