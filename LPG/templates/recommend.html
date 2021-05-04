@@ -14,14 +14,19 @@
     </script>
     {% endfor %}
     {% endif %}
-    <h3>推薦書給我們</h3>
+    <h1>推薦書給我們</h1>
+        <h3>書名、作者、出版社等資訊都可以喔</h3>
 	    <form method="POST" class="recommend-form form-group" enctype="multipart/form-data">
 			{% csrf_token %}
-            {% for field in form %}
-            {{ field.label_tag }}
-            {{ field }}
+            {{ form.studentID.label_tag }}
+            {{ form.studentID }}
             <br>
-            {% endfor %}
+            {{ form.text.label_tag }}
+            <br>
+            {{ form.text }}
+            <br>
+            
+
 			<button type="submit" class="save btn btn-info" style="margin-top: 50px">送出</button>
 		</form>
     {% endblock %}
