@@ -12,41 +12,52 @@ body{
 	color: #1B2156;
 	background-color: #FEDFDF;
 	text-align: center;
-	margin: 15px;
+	margin: 30px;
     display:flex;
     align-items:center;
     justify-content:center;
+	border-radius:20px
 }
 
 #start_page{
 	display: grid;
     place-items: center;
-	visibility: visible;
+    background-color: #FFBBBC;
+    margin: 30px;
+    padding: 20px;
+    width: 80%;
+    border-right: 8px #C3C3DF solid;
+    border-bottom: 8px #C3C3DF solid;
 }
 
 #test_page{
 	display: none;
+	background-color: #FFBBBC;
+    margin: 10px;
+    padding: 10px;
+	width: 60%;
+    border-right: 8px #C3C3DF solid;
+    border-bottom: 8px #C3C3DF solid;
 }
 
 #result_page{
 	display: none;
 }
-
-#resultDiv{
+/* #resultDiv{
 	display: flex;
     justify-content: center;
 	flex-direction: column;
-}
+} */
 
 .bookDiv{
-	display: flex;
-	flex-direction: row;
+	display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
-/* div{
+div{
 	padding-left: 15px;
 	padding-right: 15px;
 	margin-bottom: 3%;
-} */
+}
 .footer{
 	color: rgba(255,255,255,.3);
 	height: 50px;
