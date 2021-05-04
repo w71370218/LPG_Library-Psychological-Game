@@ -43,7 +43,9 @@ def index(request):
 
 	
 def game(request):
-	return render(request, 'game.html')
+	logo_icon = Img.objects.get(description="logo_icon").img.url
+	FB_share_Default = Img.objects.get(description="FB_share_Default").img.url
+	return render(request, 'game.html',{'FB_share_Default':FB_share_Default,'logo_icon':logo_icon,})
 
 def app(request):
 	test_num = 3

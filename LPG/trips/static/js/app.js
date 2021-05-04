@@ -54,9 +54,6 @@ function submit() {
 
     const url = window.location.href.replace("app/","process_result_from_client/")
     $.ajax({
-        complete: function () {
-            HiddenDiv();
-        },
         type: 'POST',
         url: url,
         dataType: "html",
@@ -122,10 +119,3 @@ function getScore(){
         return [i1,i2,i3,i4];
     }
 };
-
-function HiddenDiv() {
-    if (document.readyState == "complete") {
-        var loadingMask = document.getElementById('loadingDiv');
-        loadingMask.parentNode.removeChild(loadingMask);
-    }
-}
