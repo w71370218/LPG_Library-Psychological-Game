@@ -27,9 +27,27 @@
 		<div class="ISBN">
 			<span>{{ book.ISBN }}</span>
 		</div>
-		<div class="fb-share-button" size="large" data-layout="button" ></div>
-		<script type="text/javascript">document.getelementsByClassName('fb-share-button').setAttribute("data-href", window.location.href.replace("app/","share_book/{{ book.id }}/og/"));</script>
+		
 	</div>
+	<script type="text/javascript">
+		function black_open() {
+			window.open(window.location.href.replace("app/","recommend/{{ result }}"),"_blank");
+		}
+		function again() {
+			location.reload();
+		}
+		function back_game(){
+			location = window.location.href.replace("app/","game/");
+		}
+		fb_share_button = document.createElement("div");
+	    fb_share_button.className = "fb-share-button";
+	    now_url = window.location.href;
+	    fb_share_button.setAttribute('size', 'large');
+	    fb_share_button.setAttribute("data-layout", "button");
+	    fb_share_button.setAttribute("data-href", window.location.href.replace("app/","share_book/{{ book.id }}/og/"));
+	    document.getElementById("{{ book.id }}").appendChild(fb_share_button);
+		
+	</script>
 	{% endfor %}
 </div>
 <div class="button-group">
@@ -37,15 +55,3 @@
 	<button onclick="back_game()">回活動頁面</button>
 	<button onclick="black_open()">推薦書給我們</button>
 </div>
-<script type="text/javascript">
-	function black_open() {
-		window.open(window.location.href.replace("app/","recommend/{{ result }}"),"_blank");
-	}
-	function again() {
-		location.reload();
-	}
-	function back_game(){
-		location = window.location.href.replace("app/","game/");
-	}
-	
-</script>
