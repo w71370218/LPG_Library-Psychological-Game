@@ -1,33 +1,80 @@
-<head>
-    {% block title %}
-        <title>推薦書 | 書圖同歸</title>
-    {% endblock %}
-</head>
-<body>
-    {% block content %}
-        {% if messages %}
-    {% for message in messages%}
-    <script type="text/javascript">
-        
-        alert("{{ message }}");
-        window.location.href = "/app";
-    </script>
-    {% endfor %}
-    {% endif %}
-    <h1>推薦書給我們</h1>
-        <h3>書名、作者、出版社等資訊都可以喔</h3>
-	    <form method="POST" class="recommend-form form-group" enctype="multipart/form-data">
-			{% csrf_token %}
-            {{ form.studentID.label_tag }}
-            {{ form.studentID }}
-            <br>
-            {{ form.text.label_tag }}
-            <br>
-            {{ form.text }}
-            <br>
-            
+<html>
+    <head>
+        {% block title %}
+            <title>推薦書 | 書圖同歸</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        {% endblock %}
+    </head>
+    <style>
+        html{
+        height: 100%;
+    }
+    body{
+        margin: 0;
+        min-height: 100%;
+        display: grid; /*使用grid排版*/
+        grid-template-rows: 1fr auto; /*將上半部設置為一個單位，剩下的部分設為自動高度*/
+        background-color: #FDF6F6;
+    }
 
-			<button type="submit" class="save btn btn-info" style="margin-top: 50px">送出</button>
-		</form>
-    {% endblock %}
-</body>
+    .content{
+        color: #1B2156;
+        background-color: #FEDFDF;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        margin: 30px;
+        border-radius:20px
+    }
+    .book{
+        display:flex;
+        flex-direction: column;
+        align-items:center;
+        justify-content:center;
+        margin: 10px;
+    }
+    .footer{
+        color: rgba(255,255,255,.3);
+        height: 50px;
+        padding: 25px 0;
+        background-color: #222;
+        grid-row-start: 2;/*欄位從第二條橫線開始*/
+        grid-row-end: 3;/*欄位從第三條橫線結束*/
+        text-align: center;
+    }
+    </style>
+    <body>
+        <div class="content">
+            {% block content %}
+                {% if messages %}
+            {% for message in messages%}
+            <script type="text/javascript">
+                
+                alert("{{ message }}");
+                window.location.href = "/app";
+            </script>
+            {% endfor %}
+            {% endif %}
+            <div class="book">
+            <h1>推薦書給我們</h1>
+            <br>
+                <h3>書名、作者、出版社等資訊都可以喔</h3>
+                <br>
+                <form method="POST" class="recommend-form form-group" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.studentID.label_tag }}
+                    {{ form.studentID }}
+                    <br>
+                    {{ form.text.label_tag }}
+                    <br>
+                    {{ form.text }}
+                    <br>
+                    <br>
+                    <button type="submit" class="btn btn-outline-light">送出</button>
+                </form>
+            {% endblock %}
+        </div>
+        </div>
+        <footer class="footer"><p>統神端湯上塔 Copyright © Asiagodtone brings the soup to the tower.</p></footer>
+    </body>
+</html>

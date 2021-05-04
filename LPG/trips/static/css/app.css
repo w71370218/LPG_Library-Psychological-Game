@@ -43,11 +43,6 @@ body{
 #result_page{
 	display: none;
 }
-/* #resultDiv{
-	display: flex;
-    justify-content: center;
-	flex-direction: column;
-} */
 
 .bookDiv{
 	display: grid;
