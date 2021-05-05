@@ -51,11 +51,11 @@
 <body>
 <div class="container">
     <div id="start_page">
-        <h1>書圖同歸</h1>
+        <h2>書圖同歸</h2>
         <h3>在茫茫書海中，找到屬於你的書。</h3>
+        <br>
         <div class="description">
-            <p>想要探索自己有興趣的書籍嗎？圖書館設計了一款線上答題趣味遊戲，越積極參與就越有機會獲得精美小禮物！</p>
-            <p>推薦書或分享書還能額外獲得點數，大家把握機會喔！</p>
+            <p>想要探索自己有興趣的書籍嗎？<br>圖書館設計了一款線上答題趣味遊戲，越積極參與就越有機會獲得精美小禮物，推薦書或分享書還能額外獲得點數！</p>
         </div>
 
         <button type="button" class="btn btn-outline-dark" onclick="start()">開始</button>
@@ -71,17 +71,14 @@
         <div>
             <h4>目前題數 : {{ forloop.counter }} / {{ test_num }}</h4>
         </div>
-        {{ forloop.counter }}
-        {{ test.question }}
+        <div class="text-left">{{ test.question }}</div>
         {% for choice in choice_list %}
                 {% if test.id == choice.question_id %}
-                    <div >
+                    <div class="form-check text-left">
                     {% for typeof in type_list %}
                         {% if choice.id == typeof.choice_id %}
-                        
-
-                        <input type="radio" id="test" name="{{ test.id }}" value="{{ typeof.text }}">
-                        <label for="{{ test.id }}">{{ choice.choice_number }}.{{ choice.text }}</label><br>
+                        <input type="radio" id="test" name="{{ test.id }}" value="{{ typeof.text }}" class="form-check-input">
+                        <label for="{{ test.id }}" class="form-check-label">{{ choice.choice_number }}.{{ choice.text }}</label><br>
                         {% endif %}
                     {% endfor %}
                     </div>
@@ -91,7 +88,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="score" value="0">
                 
-                <button id="end" onclick="submit()" type="submit" class="btn btn-outline-dark">
+                <button id="end" onclick="submit()" type="submit" class="btn btn-outline-dark text-center">
                     送出
                 </button>
         {% else %}
