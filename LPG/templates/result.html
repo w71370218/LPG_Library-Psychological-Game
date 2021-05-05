@@ -1,12 +1,12 @@
 <link rel="icon" type="image/x-icon" href="{{ logo_icon }}">
-<div id="resultDiv">
+<div id="resultDiv my-5 my-md-0">
 	{% for message in messages %}
 		<h3>{{ message }}</h3>
 	{% endfor %}
 </div>
-<div class="bookDiv">
+<div class="bookDiv row">
 	{% for book in result_list %}
-	<div id="{{ book.0.id }}">
+	<div id="{{ book.0.id }}" class="col-12 col-md-4 text-center">
 		<div class="picturename">
 			<a href="{{ book.1 }}" target="_blank">
 				<img src="{{ book.0.picturename }}" class="picture">
@@ -53,7 +53,7 @@
 	</script>
 	{% endfor %}
 </div>
-<div class="button-group">
+<div class="btn-group">
 	<button onclick="again()" class="btn btn-outline-dark">再玩一次</button>
 	<button onclick="black_open()" class="btn btn-outline-dark">推薦書給我們</button>
 	<button onclick="back_game()" class="btn btn-outline-dark">回活動頁面</button>

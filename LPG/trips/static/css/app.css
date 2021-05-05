@@ -26,8 +26,7 @@ body{
     margin: 30px;
     padding: 20px;
     width: 80%;
-    border-right: 8px #C3C3DF solid;
-    border-bottom: 8px #C3C3DF solid;
+	box-shadow: 10px 10px #c3c3df;
 }
 
 #test_page{
@@ -36,8 +35,7 @@ body{
     margin: 10px;
     padding: 10px;
 	width: 60%;
-    border-right: 8px #C3C3DF solid;
-    border-bottom: 8px #C3C3DF solid;
+	box-shadow: 10px 10px #C3C3DF;
 }
 
 #result_page{
