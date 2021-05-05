@@ -279,7 +279,6 @@ def process_result_from_client(request):
 				soup = BeautifulSoup(res_text , 'html.parser')
 				find_soup = soup.find_all('td',width="16%")
 				available_bool = 0
-				print(book.callnumber)
 				if len(find_soup) > 1:
 					for i in find_soup:
 						if '可外借' in i.text:
@@ -301,7 +300,6 @@ def process_result_from_client(request):
 				soup = BeautifulSoup(res_text , 'html.parser')
 				find_soup = soup.find_all('td',width="16%")
 				available_bool = 0
-				print(book.callnumber)
 				if len(find_soup) > 1:
 					for i in find_soup:
 						if '可外借' in i.text:
@@ -321,33 +319,12 @@ def process_result_from_client(request):
 				pass
 
 	result_book_list = book_list.filter(id__in=result_book_id)
-#old code : because in heroku using this code will be get error that "WORKER TIME OUT", but new code maybe have same bug, in sercurity, keep old code
-#	for book in book_list:
-#		book_library_url = "https://library.lib.fju.edu.tw:444/search*cht/?searchtype=Y&searcharg="+ str(book.callnumber)
-#		res_text = requests.get(book_library_url).text
-#		soup = BeautifulSoup(res_text , 'html.parser')
-#		find_soup = soup.find_all('td',width="16%")
-#		available_bool = 0
-#		if len(find_soup) > 1:
-#			for i in find_soup:
-#				if '可外借' in i.text:
-#					available_bool = 1
-#					break
-#		else:
-#			if '可外借' in find_soup[0].text:
-#				available_bool = 1
-#		if available_bool == 0:
-#			exclude_id_list.append(book.id)
-#	result_book_list = book_list.exclude(id__in=exclude_id_list).order_by('?')
-#	if len(result_book_list) >= book_num:
-#		result_book_list = result_book_list[:book_num]
 
 #processing image
 	c = 0
 	for book in result_book_list:
 		if book.share_img == None:
 			picture = book.picturename
-			print(picture)
 			FB_share = Img.objects.get(description="FB_share_Transparent").img
 
 			book_img = Image.open(picture)
@@ -379,7 +356,6 @@ def process_result_from_client(request):
 			# Save share img
 			buffer1 = io.BytesIO()
 			FB_share_temp.save(fp=buffer1, format='JPEG')
-			#return ContentFile(buffer1.getvalue(), 'share_img.jpg')
 			img = ContentFile(buffer1.getvalue(), 'share_img.jpg')
 
 			
@@ -398,7 +374,6 @@ def process_result_from_client(request):
 			if book.id == k:
 				opac_url_list.append(opac_url[k])
 
-	print(result_book_list,opac_url_list)
 	result_list = zip(result_book_list,opac_url_list)
 	if len(result_book_list) == 0:
 		result_book_list = book_list.order_by('?')[:3]
@@ -407,12 +382,6 @@ def process_result_from_client(request):
 	else:
 		messages = ['請記得將結果截圖並在借書時出示給館員看喔!','我們覺得你適合看這些書...']
 		return render(request, 'result.html', {'result_list': result_list, 'messages':messages, 'result':result })
-#old return data
-	#serialized_book_list = serialize('json', result_book_list)
-	#if len(result_book_list) == 0:
-		#serialized_book_list = '[{"message":"對不起 本類的書太熱門了 目前在圖書館中已經借完了"}]'
-	#return JsonResponse(serialized_book_list, safe=False, json_dumps_params={'ensure_ascii': False}, content_type="application/json")
-
 
 def upload_test_file(request):
 	test_list = Test.objects.all()
@@ -421,7 +390,6 @@ def upload_test_file(request):
 	if request.method == 'POST':
 		form = UploadFileForm(request.POST, request.FILES)
 		if form.is_valid():
-			print(request.FILES['file'])
 			try:
 				df = pd.read_csv(request.FILES['file'])
 				data = df.values.tolist()
@@ -444,11 +412,6 @@ def upload_booklist_file(request):
 	if request.method == 'POST':
 		form = UploadBooklistFileForm(request.POST, request.FILES)
 		if form.is_valid():
-			print(request.FILES)
-			print(request.FILES['file'])
-			for i in request.FILES.getlist('image'):
-				print(type(i))
-				print(str(i))
 			
 			df = pd.read_csv(request.FILES['file'])
 			data = df.values.tolist()
@@ -467,14 +430,6 @@ def upload_booklist_file(request):
 def share_book(request,id):
 	book = get_object_or_404(Booklist, id=id)
 	img_url = book.share_img.img.url
-	#aws_access_key_id = settings.AWS_ACCESS_KEY_ID 
-	#aws_secret_access_key = settings.AWS_SECRET_ACCESS_KEY
-	#s3 = boto3.resource('s3', region_name='us-east-2', aws_access_key_id=aws_access_key_id, aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
-	#obj = s3.Object('fjulpg',img_url)
-	#file_stream = io.BytesIO()
-	#obj.download_fileobj(file_stream)
-	#img = base64.b64encode(file_stream.getvalue())
-	#img = str(img)[2:-1]
 	return render(request, 'share_book.html', {'img': img_url})
 
 def recommend_list(request):
@@ -513,36 +468,3 @@ def recommend_new(request,result):
 # x: 115
 # y: 123
 #********
-def process_share_image(img):
-	# Open img file
-	FB_share = Img.objects.get(description="FB_share_Transparent").img
-	book_img = Image.open(img)
-	book_img = book_img.convert('RGB')
-	FB_share_temp = Image.open(FB_share)
-	reserved_size = (384,384)
-	adjust_coordinate = (115,123)
-
-	# Process share img
-	width, height = book_img.size
-	if width < height:
-		if height > reserved_size[1]:
-			book_img = book_img.thumbnail(reserved_size)
-		else:
-			book_img = book_img.resize((int(reserved_size[0]/height*width),reserved_size[1]))
-		width, height = book_img.size
-		FB_share_temp.paste(book_img, (int(adjust_coordinate[0]+((reserved_size[0]-width)/2)), adjust_coordinate[1]))
-	else:
-		if width > reserved_size[0]:
-			book_img = book_img.thumbnail(reserved_size)
-		else:
-			book_img = book_img.resize((reserved_size[0],int(reserved_size[1]/width*height)))
-		width, height = book_img.size
-		FB_share_temp.paste(book_img, (adjust_coordinate[0],int(adjust_coordinate[1]+((reserved_size[1]-height)/2))))
-	
-
-
-	# Save share img
-	buffer1 = io.BytesIO()
-	FB_share_temp.save(fp=buffer1, format='JPEG')
-	return ContentFile(buffer1.getvalue(), 'share_img.jpg')
-	#return HttpResponse(image_data, content_type="image/png")
