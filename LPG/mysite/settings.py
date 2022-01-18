@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -130,9 +133,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/administration/'
 LOGOUT_REDIRECT_URL = '/administration/'
 
-AWS_ACCESS_KEY_ID = "AKIA3FVDWHGAVE45LEQC"
-AWS_SECRET_ACCESS_KEY = "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"
-AWS_STORAGE_BUCKET_NAME = 'fjulpg'
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
 
 AWS_S3_HOST = 's3.us-east-2.amazonaws.com' 
 S3_USE_SIGV4 = True 
